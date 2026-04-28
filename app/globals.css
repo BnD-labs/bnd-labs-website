@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+/* ===== BND Labs Design System ===== */
+/* Palette derived from brand kit: navy base + molecular accent nodes     */
+/* (purple #b06cc8, cyan #6dd5ea, yellow #ecd04a, orange #e07848)        */
+
+:root {
+  /* Primary — brand cyan darkened to pass WCAG AA (4.82:1 on bg) */
+  --primary: #127a90;
+  --primary-foreground: #ffffff;
+
+  /* Secondary — navy-tinted neutral surface */
+  --secondary: #eef0f7;
+  --secondary-foreground: #101a40;
+
+  /* Accent — brand orange darkened for AA large text (3.68:1) */
+  --accent: #c86840;
+  --accent-foreground: #ffffff;
+
+  /* Neutrals — tinted toward brand navy hue (~235°) */
+  --background: #fafbfe;
+  --foreground: #101a40;
+  --muted: #eef0f7;
+  --muted-foreground: #5a6178;
+
+  /* Card / Popover */
+  --card: #ffffff;
+  --card-foreground: #101a40;
+  --popover: #ffffff;
+  --popover-foreground: #101a40;
+
+  /* Borders / Inputs */
+  --border: #dde1ed;
+  --input: #dde1ed;
+  --ring: #127a90;
+
+  /* Semantic */
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --success: #10b981;
+  --warning: #ecd04a;
+  --info: #6dd5ea;
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Chart colors — molecular palette */
+  --chart-1: #127a90;
+  --chart-2: #6dd5ea;
+  --chart-3: #b06cc8;
+  --chart-4: #e07848;
+  --chart-5: #ecd04a;
+}
+
+/* ===== Dark Mode ===== */
+/* Matches brand kit: deep navy + cream text + bright molecular accents */
+.dark {
+  --primary: #6dd5ea;
+  --primary-foreground: #080e24;
+
+  --secondary: #141c3a;
+  --secondary-foreground: #eee6d6;
+
+  --accent: #e88850;
+  --accent-foreground: #080e24;
+
+  --background: #080e24;
+  --foreground: #eee6d6;
+  --muted: #141c3a;
+  --muted-foreground: #8890a8;
+
+  --card: #101a40;
+  --card-foreground: #eee6d6;
+  --popover: #101a40;
+  --popover-foreground: #eee6d6;
+
+  --border: #1e2858;
+  --input: #1e2858;
+  --ring: #6dd5ea;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --chart-1: #6dd5ea;
+  --chart-2: #1890a8;
+  --chart-3: #c088d8;
+  --chart-4: #e88850;
+  --chart-5: #ecd04a;
+}
+
+/* ===== Tailwind v4 Theme Registration ===== */
+@theme inline {
+  /* Fonts */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-plus-jakarta-sans);
+  --font-mono: var(--font-geist-mono);
+
+  /* Semantic colors */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+
+  /* Chart colors */
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  /* Brand navy scale */
+  --color-brand-50: #f0f2f8;
+  --color-brand-100: #dde1ed;
+  --color-brand-200: #bcc3d8;
+  --color-brand-300: #8892b0;
+  --color-brand-400: #5a6488;
+  --color-brand-500: #384268;
+  --color-brand-600: #1e2858;
+  --color-brand-700: #101a40;
+  --color-brand-800: #0a1230;
+  --color-brand-900: #080e24;
+  --color-brand-950: #050818;
+
+  /* Molecular accent scales */
+  --color-mol-cyan: #6dd5ea;
+  --color-mol-purple: #b06cc8;
+  --color-mol-orange: #e07848;
+  --color-mol-yellow: #ecd04a;
+
+  /* Shadows — tinted toward brand navy */
+  --shadow-sm: 0 1px 2px 0 rgb(16 26 64 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(16 26 64 / 0.08), 0 2px 4px -2px rgb(16 26 64 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(16 26 64 / 0.08), 0 4px 6px -4px rgb(16 26 64 / 0.04);
+  --shadow-xl: 0 20px 25px -5px rgb(16 26 64 / 0.08), 0 8px 10px -6px rgb(16 26 64 / 0.04);
+  --shadow-glow: 0 0 20px rgb(18 122 144 / 0.15);
+
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
+  --radius-2xl: 1.5rem;
+
+  /* Section spacing */
+  --spacing-section-sm: 4rem;
+  --spacing-section-md: 6rem;
+  --spacing-section-lg: 8rem;
+}
+
+/* ===== Base Styles ===== */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
