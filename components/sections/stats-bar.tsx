@@ -1,4 +1,4 @@
-import { Section, SectionHeader } from "@/components/sections/section";
+import { Section } from "@/components/sections/section";
 import { ScrollReveal, RevealItem } from "@/components/scroll-reveal";
 
 interface Stat {
@@ -24,48 +24,35 @@ const defaultStats: Stat[] = [
     description: "After first 3 months",
   },
   {
-    value: "15+",
+    value: "6+",
     label: "Industries served",
-    description: "Across Zambia",
+    description: "Healthcare, hospitality & more",
   },
 ];
 
 interface StatsBarProps {
   stats?: Stat[];
-  eyebrow?: string;
-  title?: string;
 }
 
-export function StatsBar({
-  stats = defaultStats,
-  eyebrow = "Results",
-  title = "Numbers That Speak for Themselves",
-}: StatsBarProps) {
+export function StatsBar({ stats = defaultStats }: StatsBarProps) {
   return (
-    <Section size="md" background="primary">
-      <ScrollReveal>
-        <div className="mb-12 max-w-3xl text-center mx-auto">
-          <p className="text-sm font-semibold uppercase tracking-widest text-primary-foreground/70">
-            {eyebrow}
-          </p>
-          <h2 className="mt-4 font-display text-3xl font-bold tracking-tight sm:text-4xl">
-            {title}
-          </h2>
-        </div>
-      </ScrollReveal>
-      <ScrollReveal className="grid grid-cols-2 gap-8 lg:grid-cols-4">
+    <Section size="sm" background="primary">
+      <ScrollReveal className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-primary-foreground/10 lg:grid-cols-4">
         {stats.map((stat) => (
-          <RevealItem key={stat.label} className="text-center">
-            <div className="font-display text-5xl font-bold tracking-tight sm:text-6xl">
+          <RevealItem
+            key={stat.label}
+            className="flex flex-col justify-center bg-primary px-6 py-8 lg:px-8 lg:py-10"
+          >
+            <span className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
               {stat.value}
-            </div>
-            <div className="mt-2 text-sm font-semibold uppercase tracking-wide text-primary-foreground/90">
+            </span>
+            <span className="mt-1 text-sm font-medium text-primary-foreground/90">
               {stat.label}
-            </div>
+            </span>
             {stat.description && (
-              <p className="mt-1 text-sm text-primary-foreground/70">
+              <span className="mt-0.5 text-xs text-primary-foreground/60">
                 {stat.description}
-              </p>
+              </span>
             )}
           </RevealItem>
         ))}

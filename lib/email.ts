@@ -7,7 +7,7 @@ function getResend() {
 }
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "hello@bndlabs.co.zm";
+const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "info@bnd-lab-agency.com";
 
 interface ContactPayload {
   formType: "contact";
@@ -108,11 +108,11 @@ export async function sendNotificationEmail(data: FormPayload) {
           : "Thanks for reaching out! We've received your message and will get back to you within 24 hours.",
         "",
         "In the meantime, check out our latest insights on building growth systems:",
-        "https://bndlabs.co.zm/blog",
+        "https://bnd-lab-agency.com/blog",
         "",
         "Best,",
         "The BND Labs Team",
-        "https://bndlabs.co.zm",
+        "https://bnd-lab-agency.com",
       ].join("\n"),
     });
   } catch (error) {

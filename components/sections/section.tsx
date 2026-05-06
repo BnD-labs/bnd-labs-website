@@ -21,7 +21,7 @@ const bgClasses: Record<SectionBg, string> = {
   default: "bg-background",
   muted: "bg-muted/50",
   primary: "bg-primary text-primary-foreground",
-  dark: "bg-slate-950 text-white",
+  dark: "bg-brand-900 text-white",
 };
 
 export function Section({
@@ -49,7 +49,7 @@ export function Section({
 
 interface SectionHeaderProps {
   eyebrow?: string;
-  title: string;
+  title: React.ReactNode;
   description?: string;
   align?: "left" | "center";
   className?: string;

@@ -8,9 +8,7 @@ export default function NotFound() {
       <p className="mt-4 text-lg text-muted-foreground">
         The page you&apos;re looking for doesn&apos;t exist.
       </p>
-      <Link href="/" className="mt-8">
-        <Button>Back to Home</Button>
-      </Link>
+      <Button className="mt-8" render={<Link href="/" />}>Back to Home</Button>
     </div>
   );
 }

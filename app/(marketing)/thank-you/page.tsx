@@ -69,17 +69,13 @@ export default function ThankYouPage() {
 
       {/* Actions */}
       <div className="mx-auto mt-12 flex max-w-md flex-col items-center gap-4 sm:flex-row sm:justify-center">
-        <Link href="/blog">
-          <Button variant="default" size="lg">
-            Read Our Blog
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
-        </Link>
-        <Link href="/">
-          <Button variant="outline" size="lg">
-            Back to Home
-          </Button>
-        </Link>
+        <Button variant="default" size="lg" render={<Link href="/blog" />}>
+          Read Our Blog
+          <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+        <Button variant="outline" size="lg" render={<Link href="/" />}>
+          Back to Home
+        </Button>
       </div>
     </Section>
   );

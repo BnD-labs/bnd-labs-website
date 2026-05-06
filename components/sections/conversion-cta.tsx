@@ -50,22 +50,19 @@ export function ConversionCta({
           {description}
         </p>
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Link href={primaryCta.href}>
-            <Button size="lg" className="text-base">
-              {primaryCta.label}
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
-          </Link>
+          <Button size="lg" className="text-base" render={<Link href={primaryCta.href} />}>
+            {primaryCta.label}
+            <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
           {secondaryCta && (
-            <Link href={secondaryCta.href}>
-              <Button
-                variant={isDark ? "secondary" : "outline"}
-                size="lg"
-                className="text-base"
-              >
-                {secondaryCta.label}
-              </Button>
-            </Link>
+            <Button
+              variant={isDark ? "secondary" : "outline"}
+              size="lg"
+              className="text-base"
+              render={<Link href={secondaryCta.href} />}
+            >
+              {secondaryCta.label}
+            </Button>
           )}
         </div>
       </ScrollReveal>

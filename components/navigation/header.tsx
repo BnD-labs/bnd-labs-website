@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,6 +22,7 @@ const navLinks = [
 ];
 
 export function Header() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -33,18 +35,22 @@ export function Header() {
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {link.label}
-            </Link>
-          ))}
-          <Link href="/contact">
-            <Button>Get Started</Button>
-          </Link>
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                aria-current={isActive ? "page" : undefined}
+                className={`text-sm font-medium transition-colors hover:text-foreground ${
+                  isActive ? "text-foreground" : "text-muted-foreground"
+                }`}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+          <Button render={<Link href="/contact" />}>Get Started</Button>
         </nav>
 
         {/* Mobile nav */}
@@ -56,26 +62,32 @@ export function Header() {
             <Menu className="h-5 w-5" />
             <span className="sr-only">Toggle menu</span>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[300px]">
+          <SheetContent side="right" className="w-[min(300px,85vw)]">
             <SheetHeader>
               <SheetTitle>
                 <Logo size="sm" />
               </SheetTitle>
             </SheetHeader>
             <nav className="flex flex-col gap-4 px-4">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.href}
-                  href={link.href}
-                  onClick={() => setIsOpen(false)}
-                  className="text-lg font-medium text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  {link.label}
-                </Link>
-              ))}
-              <Link href="/contact" onClick={() => setIsOpen(false)}>
-                <Button className="mt-4 w-full">Get Started</Button>
-              </Link>
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href || pathname.startsWith(link.href + "/");
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    aria-current={isActive ? "page" : undefined}
+                    className={`text-lg font-medium transition-colors hover:text-foreground ${
+                      isActive ? "text-foreground" : "text-muted-foreground"
+                    }`}
+                  >
+                    {link.label}
+                  </Link>
+                );
+              })}
+              <Button className="mt-4 w-full" render={<Link href="/contact" onClick={() => setIsOpen(false)} />}>
+                Get Started
+              </Button>
             </nav>
           </SheetContent>
         </Sheet>

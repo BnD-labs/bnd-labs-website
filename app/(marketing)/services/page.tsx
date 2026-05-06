@@ -256,15 +256,14 @@ export default function ServicesPage() {
                 <p className="text-sm text-muted-foreground">
                   {service.duration}
                 </p>
-                <Link href={service.href} className="mt-4 block">
-                  <Button
-                    variant={service.highlight ? "default" : "outline"}
-                    className="w-full"
-                  >
-                    {service.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+                <Button
+                  variant={service.highlight ? "default" : "outline"}
+                  className="mt-4 w-full"
+                  render={<Link href={service.href} />}
+                >
+                  {service.cta}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </div>
             </div>
 

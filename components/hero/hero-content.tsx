@@ -25,7 +25,7 @@ export function HeroContent() {
         initial="hidden"
         animate="visible"
         custom={0}
-        className="text-sm font-semibold uppercase tracking-widest text-primary"
+        className="text-sm font-semibold uppercase tracking-widest text-primary sm:text-base"
       >
         Growth Systems Architects
       </m.p>
@@ -35,7 +35,7 @@ export function HeroContent() {
         initial="hidden"
         animate="visible"
         custom={0.15}
-        className="mt-4 font-display text-5xl font-bold tracking-tight text-foreground sm:text-6xl lg:text-7xl"
+        className="mt-4 font-display text-5xl font-bold tracking-tight text-foreground sm:text-7xl lg:text-8xl"
       >
         We Build Systems That{" "}
         <span className="text-primary">Generate Leads</span>
@@ -46,7 +46,7 @@ export function HeroContent() {
         initial="hidden"
         animate="visible"
         custom={0.3}
-        className="mt-6 max-w-xl text-lg text-muted-foreground sm:text-xl"
+        className="mt-6 max-w-xl text-lg text-muted-foreground sm:text-xl lg:text-2xl"
       >
         BND Labs helps established Zambian businesses generate consistent,
         predictable leads through digital infrastructure — not freelancer

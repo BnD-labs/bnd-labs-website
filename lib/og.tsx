@@ -24,28 +24,25 @@ export function generateOgImage({ title, description, eyebrow }: OgImageProps) {
           flexDirection: "column",
           justifyContent: "flex-end",
           padding: "60px 80px",
-          backgroundColor: "#101a40",
+          backgroundColor: "#2D1B69",
           backgroundImage:
-            "radial-gradient(circle at 80% 30%, rgba(109,213,234,0.2), transparent 50%), radial-gradient(circle at 20% 80%, rgba(176,108,200,0.12), transparent 40%)",
+            "radial-gradient(circle at 80% 30%, rgba(176,108,200,0.25), transparent 50%), radial-gradient(circle at 20% 80%, rgba(109,213,234,0.15), transparent 40%)",
         }}
       >
         {/* Logo */}
-        <div
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/bnd-logo.svg`}
+          alt="BND Labs"
+          width={64}
+          height={64}
           style={{
             position: "absolute",
-            top: 48,
-            left: 80,
-            display: "flex",
-            alignItems: "center",
-            gap: 4,
-            fontSize: 28,
-            fontWeight: 700,
-            letterSpacing: "-0.02em",
+            top: 40,
+            left: 72,
+            borderRadius: 8,
           }}
-        >
-          <span style={{ color: "#eee6d6" }}>bnd</span>
-          <span style={{ color: "#6dd5ea" }}> labs</span>
-        </div>
+        />
 
         {/* Eyebrow */}
         {eyebrow && (
@@ -55,7 +52,7 @@ export function generateOgImage({ title, description, eyebrow }: OgImageProps) {
               fontWeight: 600,
               textTransform: "uppercase",
               letterSpacing: "0.15em",
-              color: "#6dd5ea",
+              color: "#c088d8",
               marginBottom: 16,
             }}
           >
@@ -102,7 +99,7 @@ export function generateOgImage({ title, description, eyebrow }: OgImageProps) {
             left: 0,
             right: 0,
             height: 6,
-            background: "linear-gradient(to right, #6dd5ea, #b06cc8, #e07848)",
+            background: "linear-gradient(to right, #2D1B69, #b06cc8, #ecd04a)",
           }}
         />
       </div>

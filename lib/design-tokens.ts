@@ -2,7 +2,7 @@
  * BND Labs Design Tokens — TypeScript reference.
  * Canonical source: app/globals.css @theme inline block.
  *
- * Palette derived from brand kit: navy base + molecular accent nodes.
+ * Palette derived from brand kit: deep purple primary + molecular accent nodes.
  */
 
 export const colors = {
@@ -28,8 +28,8 @@ export const colors = {
 } as const;
 
 export const fontFamily = {
-  sans: "var(--font-inter)",
-  display: "var(--font-plus-jakarta-sans)",
+  sans: "var(--font-source-sans)",
+  display: "var(--font-epilogue)",
   mono: "var(--font-geist-mono)",
 } as const;
 

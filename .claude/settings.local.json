@@ -56,7 +56,13 @@
       "Bash(npx skills:*)",
       "Read(//c/Users/wwwbr/.claude/skills/**)",
       "Read(//c/Users/wwwbr/.claude/**)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(ls \"E:/PROJECTS/BND LABS WEBSITE/public/\"*.riv)",
+      "Bash(rm -rf node_modules/next)",
+      "Bash(rm -rf .next)",
+      "Bash(ls \"E:/PROJECTS/BND LABS WEBSITE/public/\"*.svg)",
+      "Bash(ls \"E:/PROJECTS/BND LABS WEBSITE/public/\"*logo*)",
+      "Bash(npx impeccable:*)"
     ]
   }
 }

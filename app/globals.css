@@ -1,20 +1,20 @@
 @import "tailwindcss";
 
 /* ===== BND Labs Design System ===== */
-/* Palette derived from brand kit: navy base + molecular accent nodes     */
-/* (purple #b06cc8, cyan #6dd5ea, yellow #ecd04a, orange #e07848)        */
+/* Palette derived from brand kit: deep purple primary + molecular accents */
+/* (purple #b06cc8, cyan #6dd5ea, yellow #ecd04a, orange #e07848)         */
 
 :root {
-  /* Primary — brand cyan darkened to pass WCAG AA (4.82:1 on bg) */
-  --primary: #127a90;
+  /* Primary — brand deep purple from logo kit (~11:1 on bg) */
+  --primary: #2D1B69;
   --primary-foreground: #ffffff;
 
-  /* Secondary — navy-tinted neutral surface */
+  /* Secondary — purple-tinted neutral surface */
   --secondary: #eef0f7;
   --secondary-foreground: #101a40;
 
-  /* Accent — brand orange darkened for AA large text (3.68:1) */
-  --accent: #c86840;
+  /* Accent — brand orange darkened for AA (4.6:1 on bg) */
+  --accent: #b85a35;
   --accent-foreground: #ffffff;
 
   /* Neutrals — tinted toward brand navy hue (~235°) */
@@ -23,16 +23,16 @@
   --muted: #eef0f7;
   --muted-foreground: #5a6178;
 
-  /* Card / Popover */
-  --card: #ffffff;
+  /* Card / Popover — tinted toward brand navy, not pure white */
+  --card: #fafbfe;
   --card-foreground: #101a40;
-  --popover: #ffffff;
+  --popover: #fafbfe;
   --popover-foreground: #101a40;
 
   /* Borders / Inputs */
   --border: #dde1ed;
   --input: #dde1ed;
-  --ring: #127a90;
+  --ring: #2D1B69;
 
   /* Semantic */
   --destructive: #ef4444;
@@ -49,7 +49,7 @@
   --radius-2xl: 1.5rem;
 
   /* Chart colors — molecular palette */
-  --chart-1: #127a90;
+  --chart-1: #2D1B69;
   --chart-2: #6dd5ea;
   --chart-3: #b06cc8;
   --chart-4: #e07848;
@@ -59,7 +59,7 @@
 /* ===== Dark Mode ===== */
 /* Matches brand kit: deep navy + cream text + bright molecular accents */
 .dark {
-  --primary: #6dd5ea;
+  --primary: #c088d8;
   --primary-foreground: #080e24;
 
   --secondary: #141c3a;
@@ -80,14 +80,14 @@
 
   --border: #1e2858;
   --input: #1e2858;
-  --ring: #6dd5ea;
+  --ring: #c088d8;
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
 
-  --chart-1: #6dd5ea;
-  --chart-2: #1890a8;
-  --chart-3: #c088d8;
+  --chart-1: #c088d8;
+  --chart-2: #6dd5ea;
+  --chart-3: #b06cc8;
   --chart-4: #e88850;
   --chart-5: #ecd04a;
 }
@@ -95,8 +95,8 @@
 /* ===== Tailwind v4 Theme Registration ===== */
 @theme inline {
   /* Fonts */
-  --font-sans: var(--font-inter);
-  --font-display: var(--font-plus-jakarta-sans);
+  --font-sans: var(--font-source-sans);
+  --font-display: var(--font-epilogue);
   --font-mono: var(--font-geist-mono);
 
   /* Semantic colors */
@@ -154,8 +154,6 @@
   --shadow-md: 0 4px 6px -1px rgb(16 26 64 / 0.08), 0 2px 4px -2px rgb(16 26 64 / 0.05);
   --shadow-lg: 0 10px 15px -3px rgb(16 26 64 / 0.08), 0 4px 6px -4px rgb(16 26 64 / 0.04);
   --shadow-xl: 0 20px 25px -5px rgb(16 26 64 / 0.08), 0 8px 10px -6px rgb(16 26 64 / 0.04);
-  --shadow-glow: 0 0 20px rgb(18 122 144 / 0.15);
-
   /* Radius */
   --radius-sm: 0.375rem;
   --radius-md: 0.5rem;
@@ -183,4 +181,125 @@ body {
 *:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+/* ===== Feature Card SVG Animations ===== */
+/* Subtle, GPU-accelerated animations for "What You Get" section mockups */
+
+@keyframes feat-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.9; }
+}
+
+@keyframes feat-slide-down {
+  0% { transform: translateY(-4px); opacity: 0.6; }
+  100% { transform: translateY(4px); opacity: 0; }
+}
+
+@keyframes feat-flow-down {
+  0% { transform: translateY(-100%); opacity: 0; }
+  30% { opacity: 0.8; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+
+@keyframes feat-grow-bar {
+  0%, 100% { transform: scaleY(0.85); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes feat-draw-line {
+  from { stroke-dashoffset: 200; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes feat-dot-ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.6); opacity: 0; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+@keyframes feat-connector-flow {
+  0% { stroke-dashoffset: 16; }
+  100% { stroke-dashoffset: 0; }
+}
+
+@keyframes feat-rotate-donut {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes feat-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-2px); }
+}
+
+/* Animation utility classes — only play when parent .group is hovered */
+.feat-anim-pulse {
+  animation: feat-pulse 2.4s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.feat-anim-slide-down {
+  animation: feat-slide-down 1.8s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.feat-anim-flow {
+  animation: feat-flow-down 2s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.feat-anim-grow {
+  transform-origin: bottom;
+  animation: feat-grow-bar 2.5s ease-in-out infinite;
+  animation-play-state: paused;
+}
+.feat-anim-draw {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: feat-draw-line 1.5s ease-out forwards;
+  animation-play-state: paused;
+}
+.feat-anim-ping {
+  animation: feat-dot-ping 2s ease-out infinite;
+  animation-play-state: paused;
+}
+.feat-anim-connector {
+  stroke-dasharray: 4 4;
+  animation: feat-connector-flow 1s linear infinite;
+  animation-play-state: paused;
+}
+.feat-anim-rotate {
+  transform-origin: center;
+  animation: feat-rotate-donut 12s linear infinite;
+  animation-play-state: paused;
+}
+.feat-anim-float {
+  animation: feat-float 3s ease-in-out infinite;
+  animation-play-state: paused;
+}
+
+/* Play animations when card is hovered */
+.group:hover .feat-anim-pulse,
+.group:hover .feat-anim-slide-down,
+.group:hover .feat-anim-flow,
+.group:hover .feat-anim-grow,
+.group:hover .feat-anim-draw,
+.group:hover .feat-anim-ping,
+.group:hover .feat-anim-connector,
+.group:hover .feat-anim-rotate,
+.group:hover .feat-anim-float {
+  animation-play-state: running;
+}
+
+/* ===== Reduced Motion ===== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

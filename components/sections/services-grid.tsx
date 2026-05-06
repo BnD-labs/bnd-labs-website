@@ -77,7 +77,6 @@ export function ServicesGrid() {
   return (
     <Section size="lg">
       <SectionHeader
-        eyebrow="Our Services"
         title="From Foundation to Full Growth Engine"
         description="Three tiers. One philosophy: build systems, not dependencies."
       />
@@ -126,16 +125,15 @@ export function ServicesGrid() {
                     </li>
                   ))}
                 </ul>
-                <Link href={service.href} className="mt-8">
-                  <Button
-                    variant={service.highlight ? "default" : "outline"}
-                    className="w-full"
-                    size="lg"
-                  >
-                    {service.cta}
-                    <ArrowRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </Link>
+                <Button
+                  variant={service.highlight ? "default" : "outline"}
+                  className="mt-8 w-full"
+                  size="lg"
+                  render={<Link href={service.href} />}
+                >
+                  {service.cta}
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </CardContent>
             </Card>
           </RevealItem>

@@ -2,7 +2,7 @@
 
 import { type ReactNode } from "react";
 import { m, type Variants } from "framer-motion";
-import { cn } from "@/lib/utils";
+
 
 const containerVariants: Variants = {
   hidden: {},
@@ -15,15 +15,6 @@ const containerVariants: Variants = {
 };
 
 const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 16 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.35, ease: [0.25, 0.46, 0.45, 0.94] },
-  },
-};
-
-const fadeUpVariants: Variants = {
   hidden: { opacity: 0, y: 16 },
   visible: {
     opacity: 1,
@@ -52,7 +43,7 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   return (
     <m.div
-      variants={stagger ? containerVariants : fadeUpVariants}
+      variants={stagger ? containerVariants : itemVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-80px" }}

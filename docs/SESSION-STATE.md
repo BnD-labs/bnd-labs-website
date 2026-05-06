@@ -197,8 +197,8 @@ rendering. Type check clean, no ESLint errors.
 2. Add to `.env.local`:
    ```
    RESEND_API_KEY=re_xxxxx
-   RESEND_FROM_EMAIL=notifications@bndlabs.co.zm
-   NOTIFY_EMAIL=hello@bndlabs.co.zm
+   RESEND_FROM_EMAIL=notifications@bnd-lab-agency.com
+   NOTIFY_EMAIL=info@bnd-lab-agency.com
    ```
 3. Restart `npm run dev`. Form submissions will now send emails.
 

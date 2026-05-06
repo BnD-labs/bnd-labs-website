@@ -22,14 +22,14 @@ const contactInfo = [
   {
     icon: Mail,
     label: "Email",
-    value: "hello@bndlabs.co.zm",
-    href: "mailto:hello@bndlabs.co.zm",
+    value: "info@bnd-lab-agency.com",
+    href: "mailto:info@bnd-lab-agency.com",
   },
   {
     icon: Phone,
     label: "Phone",
-    value: "+260 97X XXX XXX",
-    href: "tel:+26097XXXXXXX",
+    value: "+260 775 788 600",
+    href: "tel:+260775788600",
   },
   {
     icon: Clock,

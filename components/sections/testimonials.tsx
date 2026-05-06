@@ -1,6 +1,6 @@
 import { Quote } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Section, SectionHeader } from "@/components/sections/section";
+import { Section } from "@/components/sections/section";
 import { ScrollReveal, RevealItem } from "@/components/scroll-reveal";
 
 interface Testimonial {
@@ -45,37 +45,70 @@ interface TestimonialsProps {
 export function Testimonials({
   testimonials = defaultTestimonials,
 }: TestimonialsProps) {
+  const [featured, ...supporting] = testimonials;
+
   return (
-    <Section size="lg" background="muted">
-      <SectionHeader
-        eyebrow="Client Stories"
-        title="Trusted by Ambitious Zambian Businesses"
-        description="Real clients. Real results. Real systems."
-      />
-      <ScrollReveal className="grid gap-6 md:grid-cols-3">
-        {testimonials.map((testimonial, i) => (
-          <RevealItem key={i}>
-            <Card className="h-full border-border/60 bg-background transition-all duration-300 hover:-translate-y-1 hover:shadow-md">
-              <CardContent className="flex h-full flex-col p-6 sm:p-8">
-                <Quote
-                  className="h-8 w-8 text-primary/30"
-                  aria-hidden="true"
-                />
-                <p className="mt-4 flex-1 text-foreground">
-                  &ldquo;{testimonial.quote}&rdquo;
+    <Section size="md" background="muted">
+      {/* Left-aligned header — no eyebrow for variety */}
+      <ScrollReveal stagger={false}>
+        <div className="mb-12 max-w-2xl sm:mb-16">
+          <h2 className="font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+            Trusted by Ambitious Zambian Businesses
+          </h2>
+        </div>
+      </ScrollReveal>
+
+      {/* Asymmetric grid: featured quote large, supporting stacked */}
+      <ScrollReveal className="grid gap-6 lg:grid-cols-5">
+        {/* Featured testimonial — spans 3 columns */}
+        <RevealItem className="lg:col-span-3">
+          <Card className="h-full border-border/60 bg-background">
+            <CardContent className="flex h-full flex-col p-8 sm:p-10 lg:p-12">
+              <Quote
+                className="h-10 w-10 text-primary/30"
+                aria-hidden="true"
+              />
+              <p className="mt-6 flex-1 font-display text-xl font-medium leading-relaxed text-foreground sm:text-2xl">
+                &ldquo;{featured.quote}&rdquo;
+              </p>
+              <div className="mt-8">
+                <p className="font-semibold text-foreground">
+                  {featured.author}
                 </p>
-                <div className="mt-6 border-t border-border pt-4">
-                  <p className="font-semibold text-foreground">
-                    {testimonial.author}
+                <p className="text-sm text-muted-foreground">
+                  {featured.role} · {featured.company}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </RevealItem>
+
+        {/* Supporting testimonials — stacked in 2 columns */}
+        <div className="flex flex-col gap-6 lg:col-span-2">
+          {supporting.map((testimonial, i) => (
+            <RevealItem key={i} className="flex-1">
+              <Card className="h-full border-border/60 bg-background">
+                <CardContent className="flex h-full flex-col p-6 sm:p-8">
+                  <Quote
+                    className="h-6 w-6 text-primary/30"
+                    aria-hidden="true"
+                  />
+                  <p className="mt-4 flex-1 text-foreground">
+                    &ldquo;{testimonial.quote}&rdquo;
                   </p>
-                  <p className="text-sm text-muted-foreground">
-                    {testimonial.role} · {testimonial.company}
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
-          </RevealItem>
-        ))}
+                  <div className="mt-6 border-t border-border pt-4">
+                    <p className="font-semibold text-foreground">
+                      {testimonial.author}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {testimonial.role} · {testimonial.company}
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </RevealItem>
+          ))}
+        </div>
       </ScrollReveal>
     </Section>
   );

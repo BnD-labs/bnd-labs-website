@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { CategoryFilter } from "@/components/blog/category-filter";
 import { FeaturedPostCard } from "@/components/blog/featured-post-card";
 import { PostCard } from "@/components/blog/post-card";
+import { ConversionCta } from "@/components/sections/conversion-cta";
 import { getAllPosts } from "@/lib/blog";
 
 export const metadata: Metadata = {
@@ -57,6 +58,14 @@ export default async function BlogPage() {
           </>
         )}
       </div>
+
+      <ConversionCta
+        eyebrow="Put These Ideas to Work"
+        title="We'll Build It for You"
+        description="Like what you're reading? Let us turn these strategies into a working growth system for your business."
+        primaryCta={{ label: "Book a Discovery Call", href: "/contact" }}
+        secondaryCta={{ label: "See Our Services", href: "/services" }}
+      />
     </div>
   );
 }
