@@ -25,7 +25,7 @@ import { ConversionCta } from "@/components/sections/conversion-cta";
 import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
-  title: "Services — Growth Systems for Zambian Businesses | BND Labs",
+  title: "Services — Growth Systems for Zambian Businesses",
   description:
     "From digital foundations to full AI-powered growth engines. Three service tiers designed to generate consistent, predictable leads for established Zambian businesses.",
 };

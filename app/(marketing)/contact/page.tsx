@@ -7,7 +7,7 @@ import { ContactForm } from "@/components/forms/contact-form";
 import { FaqAccordion } from "@/components/sections/faq-accordion";
 
 export const metadata: Metadata = {
-  title: "Contact — Book a Discovery Call | BND Labs",
+  title: "Contact — Book a Discovery Call",
   description:
     "Book a free 30-minute discovery call with BND Labs. We'll audit your current lead flow and show you where the gaps are — no pitch, no pressure.",
 };

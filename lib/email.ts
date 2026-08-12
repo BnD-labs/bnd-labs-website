@@ -1,13 +1,18 @@
 import { Resend } from "resend";
 
-function getResend() {
-  const key = process.env.RESEND_API_KEY;
-  if (!key) return null;
-  return new Resend(key);
+// Config can come from an injected env (Cloudflare Workers/Pages Functions,
+// where process.env is unavailable) or fall back to process.env (Node).
+export interface EmailEnv {
+  RESEND_API_KEY?: string;
+  RESEND_FROM_EMAIL?: string;
+  NOTIFY_EMAIL?: string;
 }
 
-const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
-const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? "info@bnd-lab-agency.com";
+function envVar(env: EmailEnv | undefined, name: keyof EmailEnv): string | undefined {
+  return (
+    env?.[name] ?? (typeof process !== "undefined" ? process.env[name] : undefined)
+  );
+}
 
 interface ContactPayload {
   formType: "contact";
@@ -36,14 +41,17 @@ interface NewsletterPayload {
   email: string;
 }
 
-type FormPayload = ContactPayload | DiscoveryCallPayload | NewsletterPayload;
+export type FormPayload = ContactPayload | DiscoveryCallPayload | NewsletterPayload;
 
-export async function sendNotificationEmail(data: FormPayload) {
-  const resend = getResend();
-  if (!resend) {
+export async function sendNotificationEmail(data: FormPayload, env?: EmailEnv) {
+  const key = envVar(env, "RESEND_API_KEY");
+  if (!key) {
     console.log("[email] RESEND_API_KEY not set — skipping email send");
     return;
   }
+  const resend = new Resend(key);
+  const FROM_EMAIL = envVar(env, "RESEND_FROM_EMAIL") ?? "onboarding@resend.dev";
+  const NOTIFY_EMAIL = envVar(env, "NOTIFY_EMAIL") ?? "info@bnd-lab-agency.com";
 
   try {
     if (data.formType === "newsletter") {

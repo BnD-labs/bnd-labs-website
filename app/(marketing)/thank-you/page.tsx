@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 export const metadata: Metadata = {
-  title: "Thank You | BND Labs",
+  title: "Thank You",
   description: "We've received your message. Here's what happens next.",
 };
 

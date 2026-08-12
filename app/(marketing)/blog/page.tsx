@@ -13,7 +13,8 @@ export const metadata: Metadata = {
 
 export default async function BlogPage() {
   const posts = await getAllPosts();
-  const [hero, ...rest] = posts;
+  const hero = posts.find((p) => p.featured) ?? posts[0];
+  const rest = posts.filter((p) => p !== hero);
 
   return (
     <div className="bg-background">

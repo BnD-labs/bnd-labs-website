@@ -30,7 +30,7 @@ export function ContactForm() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, formType: "contact" }),
       });
       if (!res.ok) {
         const body = await res.json().catch(() => ({}));
@@ -52,7 +52,7 @@ export function ContactForm() {
           Message received
         </h3>
         <p className="mt-2 text-muted-foreground">
-          We&apos;ll be in touch within 24 hours to schedule your discovery call.
+          We&apos;ll get back to you within 24 hours.
         </p>
         <Button
           variant="outline"
@@ -153,7 +153,7 @@ export function ContactForm() {
             Sending...
           </>
         ) : (
-          "Book My Discovery Call"
+          "Send Message"
         )}
       </Button>
     </form>

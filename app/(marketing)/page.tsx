@@ -1,7 +1,7 @@
 import dynamic from "next/dynamic";
 import { HeroSection, HeroContent, RiveHero } from "@/components/hero";
 import { ProblemSection } from "@/components/sections/problem-section";
-import { getAllPosts } from "@/lib/blog";
+import { getFeaturedPosts } from "@/lib/blog";
 
 // Below-fold sections — lazy-loaded to reduce initial bundle
 const FeaturesGrid = dynamic(
@@ -47,7 +47,7 @@ const ConversionCta = dynamic(
 );
 
 export default async function HomePage() {
-  const posts = await getAllPosts();
+  const posts = await getFeaturedPosts();
 
   return (
     <>

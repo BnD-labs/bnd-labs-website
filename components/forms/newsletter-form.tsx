@@ -31,11 +31,12 @@ export function NewsletterForm({
   const onSubmit = async (data: NewsletterInput) => {
     setStatus("submitting");
     try {
-      await fetch("/api/contact", {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...data, formType: "newsletter" }),
       });
+      if (!res.ok) throw new Error("Subscription failed");
       setStatus("success");
       reset();
     } catch {
@@ -74,6 +75,11 @@ export function NewsletterForm({
       {errors.email && (
         <p className="text-xs text-destructive" role="alert">
           {errors.email.message}
+        </p>
+      )}
+      {status === "error" && (
+        <p className="text-xs text-destructive" role="alert">
+          Something went wrong — please try again.
         </p>
       )}
     </form>

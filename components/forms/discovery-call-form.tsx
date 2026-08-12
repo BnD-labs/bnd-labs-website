@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Loader2, CheckCircle2 } from "lucide-react";
@@ -18,6 +19,7 @@ import {
 import { cn } from "@/lib/utils";
 
 export function DiscoveryCallForm() {
+  const router = useRouter();
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
@@ -45,6 +47,7 @@ export function DiscoveryCallForm() {
       }
       setStatus("success");
       reset();
+      router.push("/thank-you");
     } catch (err) {
       setStatus("error");
       setErrorMsg(err instanceof Error ? err.message : "Failed to send");
