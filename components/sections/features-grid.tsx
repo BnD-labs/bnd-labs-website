@@ -1,7 +1,7 @@
 "use client";
 
 import { m, type Variants } from "framer-motion";
-import { Section, SectionHeader } from "./section";
+import { Section } from "./section";
 
 const ease = [0.25, 0.46, 0.45, 0.94] as const;
 
