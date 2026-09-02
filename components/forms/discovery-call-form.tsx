@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,6 +14,7 @@ import {
   INDUSTRIES,
   BUDGET_RANGES,
   TIMELINES,
+  SERVICE_TIERS,
   type DiscoveryCallInput,
 } from "@/lib/schemas";
 import { cn } from "@/lib/utils";
@@ -23,14 +24,29 @@ export function DiscoveryCallForm() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
+  const [tierLabel, setTierLabel] = useState("");
+
   const {
     register,
     handleSubmit,
     reset,
+    setValue,
     formState: { errors },
   } = useForm<DiscoveryCallInput>({
     resolver: zodResolver(discoveryCallSchema),
   });
+
+  // Pick up /contact?tier=<slug> so the lead is tagged with the tier the visitor
+  // clicked. Read from window rather than useSearchParams: under output:"export"
+  // useSearchParams forces this subtree out of the prerendered HTML.
+  useEffect(() => {
+    const slug = new URLSearchParams(window.location.search).get("tier");
+    const label = slug ? SERVICE_TIERS[slug] : undefined;
+    if (label) {
+      setTierLabel(label);
+      setValue("tier", label);
+    }
+  }, [setValue]);
 
   const onSubmit = async (data: DiscoveryCallInput) => {
     setStatus("submitting");
@@ -75,6 +91,13 @@ export function DiscoveryCallForm() {
       className="space-y-6"
       aria-label="Discovery call form"
     >
+      <input type="hidden" {...register("tier")} />
+      {tierLabel && (
+        <div className="rounded-lg border border-primary/20 bg-primary/5 px-4 py-3 text-sm">
+          <span className="text-muted-foreground">Enquiring about: </span>
+          <span className="font-medium text-foreground">{tierLabel}</span>
+        </div>
+      )}
       <div className="grid gap-6 sm:grid-cols-2">
         <Field label="Full name" htmlFor="dc-name" error={errors.name?.message}>
           <Input

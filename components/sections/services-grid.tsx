@@ -26,8 +26,9 @@ export const services = [
       "CRM setup",
       "Lead capture system",
     ],
-    cta: "Start Your Foundation",
-    href: "/services#growth-starter",
+    cta: "Book a Discovery Call",
+    href: "/contact?tier=growth-starter",
+    detailsHref: "/services#growth-starter",
     highlight: false,
   },
   {
@@ -47,8 +48,9 @@ export const services = [
       "Performance reports",
       "Monthly strategy sessions",
     ],
-    cta: "Scale Your Pipeline",
-    href: "/services#growth-retainer",
+    cta: "Book a Discovery Call",
+    href: "/contact?tier=growth-retainer",
+    detailsHref: "/services#growth-retainer",
     highlight: true,
   },
   {
@@ -68,7 +70,8 @@ export const services = [
       "Ongoing optimization",
     ],
     cta: "Join the Waitlist",
-    href: "/services#ai-growth-engine",
+    href: "/contact?tier=ai-growth-engine",
+    detailsHref: "/services#ai-growth-engine",
     highlight: false,
   },
 ];
@@ -134,6 +137,12 @@ export function ServicesGrid() {
                   {service.cta}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
+                <Link
+                  href={service.detailsHref}
+                  className="mt-3 text-center text-sm text-muted-foreground underline underline-offset-4 transition-colors hover:text-foreground"
+                >
+                  See what&apos;s included
+                </Link>
               </CardContent>
             </Card>
           </RevealItem>

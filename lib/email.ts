@@ -30,6 +30,8 @@ interface DiscoveryCallPayload {
   email: string;
   company: string;
   phone?: string;
+  /** Tier the visitor arrived from via /contact?tier=<slug>, if any. */
+  tier?: string;
   industry: string;
   budget: string;
   timeline: string;
@@ -78,6 +80,7 @@ export async function sendNotificationEmail(data: FormPayload, env?: EmailEnv) {
 
     if (isDiscovery) {
       const d = data as DiscoveryCallPayload;
+      if (d.tier) lines.push(`Interested in: ${d.tier}`);
       lines.push(`Industry: ${d.industry}`);
       lines.push(`Budget: ${d.budget}`);
       lines.push(`Timeline: ${d.timeline}`);

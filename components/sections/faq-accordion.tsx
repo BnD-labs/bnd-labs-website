@@ -57,15 +57,33 @@ interface FaqAccordionProps {
 }
 
 export function FaqAccordion({ faqs = defaultFaqs }: FaqAccordionProps) {
+  // Built from the same array that renders below, so the structured data cannot
+  // drift from the visible copy.
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqs.map((faq) => ({
+      "@type": "Question",
+      name: faq.question,
+      acceptedAnswer: { "@type": "Answer", text: faq.answer },
+    })),
+  };
+
   return (
     <Section size="lg">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(faqSchema).replace(/</g, "\\u003c"),
+        }}
+      />
       <SectionHeader
         eyebrow="FAQ"
         title="Questions? We've Got Answers."
         description="Everything you need to know before booking a discovery call."
       />
       <ScrollReveal stagger={false} className="mx-auto max-w-3xl">
-        <Accordion>
+        <Accordion hiddenUntilFound>
           {faqs.map((faq, i) => (
             <AccordionItem key={i} value={`item-${i}`}>
               <AccordionTrigger className="py-5 text-base font-semibold sm:text-lg">

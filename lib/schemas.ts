@@ -40,7 +40,18 @@ export const TIMELINES = [
   "Just exploring",
 ] as const;
 
+/**
+ * Tiers a visitor can arrive from via /contact?tier=<slug>. The label is what
+ * gets submitted and shown in the notification email.
+ */
+export const SERVICE_TIERS: Record<string, string> = {
+  "growth-starter": "Growth Starter",
+  "growth-retainer": "Growth System Retainer",
+  "ai-growth-engine": "AI Growth Engine (waitlist)",
+};
+
 export const discoveryCallSchema = contactSchema.extend({
+  tier: z.string().max(60).optional().or(z.literal("")),
   industry: z.enum(INDUSTRIES, {
     message: "Please select your industry",
   }),
