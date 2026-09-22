@@ -4,7 +4,7 @@ import {
   Zap,
   Shield,
   Heart,
-  Building2,
+  Truck,
   GraduationCap,
   UtensilsCrossed,
 } from "lucide-react";
@@ -16,7 +16,7 @@ import { ConversionCta } from "@/components/sections/conversion-cta";
 export const metadata: Metadata = {
   title: "About BND Labs — Growth Systems Architects, Lusaka",
   description:
-    "BND Labs builds digital infrastructure that generates consistent, predictable leads for established Zambian businesses in healthcare, hospitality, and education.",
+    "BND Labs builds digital infrastructure that generates consistent, predictable leads for established Zambian businesses in logistics, hospitality, education and healthcare.",
 };
 
 const values = [
@@ -46,17 +46,20 @@ const values = [
   },
 ];
 
+// Four, deliberately: the section header promises specialisation, and the grid
+// is two columns. The form's industry dropdown is broader on purpose — it has
+// to catch every enquirer, whereas this page only markets where we go deep.
 const industries = [
   {
-    icon: Heart,
-    name: "Healthcare",
+    icon: Truck,
+    name: "Logistics & Freight",
     description:
-      "Private clinics and medical practices that need a steady stream of qualified patient inquiries without relying on word-of-mouth alone.",
-    examples: "Private clinics, dental practices, specialist consultancies",
+      "Freight, clearing and relocation firms that need enquiries arriving steadily, instead of depending on whoever the customer happens to call first.",
+    examples: "Freight forwarders, clearing agents, relocation and moving companies",
   },
   {
     icon: UtensilsCrossed,
-    name: "Hospitality",
+    name: "Hospitality & F&B",
     description:
       "Lodges, hotels, and restaurants that want direct bookings instead of paying commissions to third-party platforms.",
     examples: "Safari lodges, boutique hotels, restaurant groups",
@@ -65,15 +68,15 @@ const industries = [
     icon: GraduationCap,
     name: "Education",
     description:
-      "Private schools that need to fill enrollment pipelines with qualified families during admission cycles.",
-    examples: "Private schools, training centres, educational programmes",
+      "Private and vocational institutions that need each intake filled with qualified applicants, rather than hoping the right families find them during admissions season.",
+    examples: "Private schools, vocational and training colleges, skills programmes",
   },
   {
-    icon: Building2,
-    name: "Professional Services",
+    icon: Heart,
+    name: "Healthcare",
     description:
-      "Law firms, accounting practices, and consultancies that want to systematize their client acquisition beyond referrals.",
-    examples: "Law firms, accounting firms, consultancies",
+      "Private clinics and medical practices that need a steady stream of qualified patient inquiries without relying on word-of-mouth alone.",
+    examples: "Private clinics, dental practices, specialist consultancies",
   },
 ];
 
