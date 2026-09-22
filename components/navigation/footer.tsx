@@ -3,6 +3,14 @@ import { Separator } from "@/components/ui/separator";
 import { NewsletterForm } from "@/components/forms/newsletter-form";
 import { Logo } from "@/components/logo";
 
+// Must match the PACRA certificate EXACTLY — Meta verification compares them.
+const COMPANY_DETAILS = {
+  registeredName: "TODO: registered name exactly as on the PACRA certificate",
+  address: "TODO: business address",
+  phone: "TODO: business phone",
+  email: "info@bnd-lab-agency.com",
+};
+
 const footerLinks = {
   company: [
     { href: "/about", label: "About" },
@@ -106,6 +114,21 @@ export function Footer() {
               Terms of Service
             </Link>
           </div>
+        </div>
+
+        {/*
+          Registered company details. Meta compares these against the PACRA
+          certificate during Business Verification, so they must match it
+          exactly and must be present on every page — which the global footer
+          guarantees. Kept as plain text: the phone is still a placeholder, and
+          a tel: link built from it would be broken.
+        */}
+        <div className="mt-6 space-y-0.5 text-center text-xs text-muted-foreground sm:text-left">
+          <p>{COMPANY_DETAILS.registeredName}</p>
+          <p>{COMPANY_DETAILS.address}</p>
+          <p>
+            {COMPANY_DETAILS.phone} &middot; {COMPANY_DETAILS.email}
+          </p>
         </div>
       </div>
     </footer>
