@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import {
   discoveryCallSchema,
   INDUSTRIES,
+  ROLES,
   BUDGET_RANGES,
   TIMELINES,
   SERVICE_TIERS,
@@ -138,6 +139,24 @@ export function DiscoveryCallForm() {
           />
         </Field>
       </div>
+
+      <Field label="Your role" htmlFor="dc-role" error={errors.role?.message}>
+        <NativeSelect
+          id="dc-role"
+          aria-invalid={!!errors.role}
+          {...register("role")}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select your role
+          </option>
+          {ROLES.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </NativeSelect>
+      </Field>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <Field label="Industry" htmlFor="dc-industry" error={errors.industry?.message}>

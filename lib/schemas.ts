@@ -17,12 +17,26 @@ export const contactSchema = z.object({
 export type ContactInput = z.infer<typeof contactSchema>;
 
 export const INDUSTRIES = [
+  "Logistics & Freight",
+  "Hospitality & F&B (Lodge / Hotel / Restaurant)",
+  "Education (Private or Vocational)",
+  "ICT & Professional Services",
+  "Creative & Production",
+  "Retail / Trade / Ecommerce",
   "Healthcare (Private Clinic)",
-  "Hospitality (Lodge / Hotel / Restaurant)",
-  "Education (Private School)",
-  "Professional Services",
-  "Retail / Ecommerce",
   "Other",
+] as const;
+
+/**
+ * Authority — the fourth lead-scoring axis, and the most predictive one in
+ * SMEs where the enquirer is often the owner. Discovery-call form only; the
+ * plain contact form stays low-friction.
+ */
+export const ROLES = [
+  "Owner / Founder / Managing Director",
+  "Director",
+  "Manager",
+  "Other / Prefer not to say",
 ] as const;
 
 export const BUDGET_RANGES = [
@@ -52,6 +66,9 @@ export const SERVICE_TIERS: Record<string, string> = {
 
 export const discoveryCallSchema = contactSchema.extend({
   tier: z.string().max(60).optional().or(z.literal("")),
+  role: z.enum(ROLES, {
+    message: "Please select your role",
+  }),
   industry: z.enum(INDUSTRIES, {
     message: "Please select your industry",
   }),
