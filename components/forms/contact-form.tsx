@@ -52,7 +52,8 @@ export function ContactForm() {
           Message received
         </h3>
         <p className="mt-2 text-muted-foreground">
-          We&apos;ll get back to you within 24 hours.
+          Brandon reads every enquiry himself and will come back to you
+          personally.
         </p>
         <Button
           variant="outline"

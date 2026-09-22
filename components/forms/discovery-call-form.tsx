@@ -79,7 +79,8 @@ export function DiscoveryCallForm() {
           Your discovery call request is in
         </h3>
         <p className="mt-2 text-muted-foreground">
-          We&apos;ll review your details and send a calendar link within 24 hours.
+          Brandon will review your details and come back to you personally to
+          set a time.
         </p>
       </div>
     );

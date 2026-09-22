@@ -33,9 +33,9 @@ const contactInfo = [
   },
   {
     icon: Clock,
-    label: "Response Time",
-    value: "Within 24 hours",
-    detail: "Mon – Fri, 08:00 – 17:00 CAT",
+    label: "Office Hours",
+    value: "Mon – Fri",
+    detail: "08:00 – 17:00 CAT",
   },
 ];
 
@@ -70,8 +70,8 @@ export default function ContactPage() {
                 Book a Discovery Call
               </h2>
               <p className="mt-2 text-muted-foreground">
-                Tell us about your business and we&apos;ll send you a calendar
-                link within 24 hours.
+                Tell us about your business and Brandon will come back to you
+                personally to set a time.
               </p>
               <div className="mt-8">
                 <DiscoveryCallForm />
@@ -177,7 +177,7 @@ export default function ContactPage() {
           {
             question: "How quickly will you respond?",
             answer:
-              "We respond to all inquiries within 24 hours during business days (Monday–Friday, 08:00–17:00 CAT). Discovery call requests get priority.",
+              "Brandon reads every enquiry himself, so a reply comes from him rather than an autoresponder. We work Monday–Friday, 08:00–17:00 CAT, and discovery call requests get priority.",
           },
           {
             question: "Can I just ask a question without booking a call?",

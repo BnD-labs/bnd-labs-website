@@ -14,7 +14,7 @@ const nextSteps = [
   {
     title: "Check Your Inbox",
     description:
-      "You'll receive a confirmation email shortly. If you requested a discovery call, we'll send a calendar link within 24 hours.",
+      "You'll receive a confirmation email shortly. If you requested a discovery call, we'll follow up with a calendar link to set a time.",
   },
   {
     title: "We Review Your Details",
