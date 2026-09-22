@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Static export for GitHub Pages
+  // Static export, deployed on Cloudflare Pages.
+  // Server-side routes live in functions/ as Pages Functions (POST /api/contact).
   output: "export",
 
   experimental: {
