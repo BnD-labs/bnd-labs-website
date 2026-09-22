@@ -1,5 +1,5 @@
 import dynamic from "next/dynamic";
-import { HeroSection, HeroContent, RiveHero } from "@/components/hero";
+import { HeroSection, HeroContent, HeroVisual } from "@/components/hero";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { getFeaturedPosts } from "@/lib/blog";
 
@@ -54,7 +54,7 @@ export default async function HomePage() {
       <HeroSection>
         <div className="grid w-full items-center gap-8 lg:grid-cols-[6fr_5fr]">
           <HeroContent />
-          <RiveHero className="w-full lg:-mr-8" />
+          <HeroVisual className="w-full lg:-mr-8" />
         </div>
       </HeroSection>
 
