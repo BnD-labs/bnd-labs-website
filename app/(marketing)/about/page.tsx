@@ -10,7 +10,6 @@ import {
 } from "lucide-react";
 import { Section, SectionHeader } from "@/components/sections/section";
 import { Card, CardContent } from "@/components/ui/card";
-import { StatsBar } from "@/components/sections/stats-bar";
 import { ConversionCta } from "@/components/sections/conversion-cta";
 
 export const metadata: Metadata = {
@@ -167,9 +166,6 @@ export default function AboutPage() {
           })}
         </div>
       </Section>
-
-      {/* Stats */}
-      <StatsBar />
 
       {/* Industries */}
       <Section size="lg">
