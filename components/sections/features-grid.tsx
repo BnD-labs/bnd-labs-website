@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import { Section } from "./section";
 import { ScrollReveal, RevealItem } from "@/components/scroll-reveal";
 
@@ -20,26 +21,30 @@ const parts = [
   {
     title: "Lead capture",
     description:
-      "Forms, landing pages and a conversion site that route every enquiry somewhere — instead of into an inbox nobody checks.",
+      "Forms, landing pages and a conversion site that route every enquiry somewhere, instead of into an inbox nobody checks.",
     marker: "var(--color-mol-cyan)",
+    from: { x: "-28px", y: "18px" },
   },
   {
     title: "CRM, set up properly",
     description:
       "Pipeline stages, clear ownership, and follow-up reminders that actually fire.",
     marker: "var(--color-mol-yellow)",
+    from: { x: "28px", y: "18px" },
   },
   {
     title: "Follow-up automation",
     description:
       "Sequences that keep working through the week you are too busy to chase anyone.",
     marker: "var(--color-mol-orange)",
+    from: { x: "-28px", y: "34px" },
   },
   {
     title: "Reporting you will read",
     description:
       "What came in, where it came from, and what it turned into. One page, every month.",
     marker: "var(--color-mol-purple)",
+    from: { x: "28px", y: "34px" },
   },
 ];
 
@@ -51,8 +56,8 @@ export function FeaturesGrid() {
           Everything the system includes
         </h2>
         <p className="mt-4 text-lg text-primary-foreground/70 sm:text-xl">
-          One engine, four parts. Built together and handed over together
-          &mdash; not a patchwork of disconnected tools.
+          One engine, four parts. Built together and handed over together,
+          not a patchwork of disconnected tools.
         </p>
       </div>
 
@@ -61,7 +66,13 @@ export function FeaturesGrid() {
         {parts.map((part) => (
           <RevealItem
             key={part.title}
-            className="border-b border-primary-foreground/15 sm:[&:nth-child(odd)]:border-r"
+            className="reveal-assemble border-b border-primary-foreground/15 sm:[&:nth-child(odd)]:border-r"
+            style={
+              {
+                "--assemble-x": part.from.x,
+                "--assemble-y": part.from.y,
+              } as CSSProperties
+            }
           >
             <div className="py-8 sm:px-8 sm:py-10">
               <span

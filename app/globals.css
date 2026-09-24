@@ -42,8 +42,8 @@
 
   /* Hero drafting grid — fine 32px rule, major 160px rule. Defined as tokens
      so the grid follows the theme instead of hardcoding a light-mode navy. */
-  --grid-line: rgb(16 26 64 / 0.055);
-  --grid-line-major: rgb(16 26 64 / 0.10);
+  --grid-line: rgb(16 26 64 / 0.04);
+  --grid-line-major: rgb(16 26 64 / 0.075);
 
   /* Semantic */
   --destructive: #ef4444;
@@ -298,3 +298,57 @@ body {
 .js .reveal:nth-child(5) { transition-delay: 280ms; }
 .js .reveal:nth-child(6) { transition-delay: 350ms; }
 .js .reveal:nth-child(n + 7) { transition-delay: 420ms; }
+
+/* ===== Hero depth =====
+   Five planes translating at different rates off one scroll value. Depth is
+   the difference between the rates, not the number of layers: the grid and
+   glow lag behind the scroll (far), the type tracks it closely (mid), and the
+   annotation and product frame run slightly ahead (near), so the frame reads
+   as rising toward the reader while the ground falls away.
+
+   Transform only. Every plane is fully visible at --sy: 0, so with JavaScript
+   off or motion reduced the hero is a complete static composition rather than
+   a stack of things waiting to be revealed. */
+@media (prefers-reduced-motion: no-preference) {
+  .hero-plane-glow,
+  .hero-plane-grid,
+  .hero-plane-type,
+  .hero-plane-note,
+  .hero-plane-frame {
+    will-change: transform;
+  }
+
+  .hero-plane-glow {
+    transform: translate3d(0, calc(var(--sy, 0) * 0.34px), 0);
+  }
+  .hero-plane-grid {
+    transform: translate3d(0, calc(var(--sy, 0) * 0.2px), 0);
+  }
+  .hero-plane-type {
+    transform: translate3d(0, calc(var(--sy, 0) * 0.06px), 0);
+  }
+  .hero-plane-note {
+    transform: translate3d(0, calc(var(--sy, 0) * -0.05px), 0);
+  }
+  .hero-plane-frame {
+    transform: translate3d(0, calc(var(--sy, 0) * -0.12px), 0);
+  }
+}
+
+/* ===== Assemble =====
+   The four parts of the system converge from their own corners instead of all
+   rising by 16px like everything else on the page. One section behaving
+   differently from its neighbours is what stops a page reading as one idea
+   repeated. */
+.js .reveal-assemble {
+  opacity: 0;
+  transform: translate3d(var(--assemble-x, 0), var(--assemble-y, 24px), 0);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.js .reveal-assemble.is-visible {
+  opacity: 1;
+  transform: none;
+}

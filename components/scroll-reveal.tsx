@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 interface ScrollRevealProps {
@@ -76,9 +76,16 @@ export function ScrollReveal({
 export function RevealItem({
   children,
   className,
+  style,
 }: {
   children: ReactNode;
   className?: string;
+  /** For per-item custom properties, e.g. an assemble offset. */
+  style?: CSSProperties;
 }) {
-  return <div className={cn("reveal", className)}>{children}</div>;
+  return (
+    <div className={cn("reveal", className)} style={style}>
+      {children}
+    </div>
+  );
 }

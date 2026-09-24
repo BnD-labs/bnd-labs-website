@@ -24,7 +24,7 @@ export function HeroSection({ children, className }: HeroSectionProps) {
       */}
       <div
         aria-hidden="true"
-        className="absolute inset-0"
+        className="hero-plane-grid absolute -inset-y-24 inset-x-0"
         style={{
           backgroundImage:
             "linear-gradient(var(--grid-line) 1px, transparent 1px)," +
@@ -35,10 +35,15 @@ export function HeroSection({ children, className }: HeroSectionProps) {
         }}
       />
 
-      {/* Primary glow, pulled off-centre to match the composition's lean */}
+      {/*
+        Atmospheric plane, pulled off-centre to match the composition's lean.
+        Held at 7%: a purple radial glow is one of the clearest tells of a
+        generated page, so it reads as light on the grid rather than as a
+        colour wash.
+      */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 bg-[radial-gradient(1000px_560px_at_46%_-10%,var(--color-primary),transparent_64%)] opacity-[0.13]"
+        className="hero-plane-glow absolute -inset-y-32 inset-x-0 bg-[radial-gradient(1100px_620px_at_46%_-6%,var(--color-primary),transparent_66%)] opacity-[0.07]"
       />
 
       {/* Foreground content */}

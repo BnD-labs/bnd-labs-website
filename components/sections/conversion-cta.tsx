@@ -16,7 +16,7 @@ interface ConversionCtaProps {
 export function ConversionCta({
   eyebrow = "Ready to Grow?",
   title = "Let's Build Your Growth System",
-  description = "Book a free 30-minute discovery call. We'll audit your current lead flow and show you exactly where the gaps are — no pitch, no pressure.",
+  description = "Book a free 30-minute discovery call. We'll audit your current lead flow and show you exactly where the gaps are. No pitch, no pressure.",
   primaryCta = { label: "Book a Discovery Call", href: "/contact" },
   secondaryCta = { label: "View Our Services", href: "/services" },
   background = "dark",
