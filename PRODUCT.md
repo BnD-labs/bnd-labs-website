@@ -60,10 +60,10 @@ The mechanism behind it is the **Prospect Engine**, BND's own prospect-research 
 
 Because these are published and attributable, provenance is shown on the page ("Google review"). Do not edit their wording, and do not add a quote that is not published there. **Needed from the user:** the public Google Business Profile URL, so the reviews can link out to independent verification.
 
-**Real client work — both live and linked from the homepage:**
-- **Bastuku Investments** — bastuku-inv.com. Conversion website with online bookings, lead capture system, social platforms, content strategy.
-- **Queso Pizza** — quesopizza.com. Mobile-first marketing site, WhatsApp order builder with call-to-confirm, Kwacha menu system.
-- A third project, Vast Gallery / vast-media (photography marketing plus client photo delivery), exists in the user's working directories but has not been confirmed live and is deliberately not listed.
+**Real client work — all three live, linked from the homepage, and shown with screenshots captured from the live sites themselves (`public/work/`). No mockups.**
+- **Bastuku Investments** — bastuku-inv.com. Conversion website opening on a move-scoping form, lead capture system, social platforms, content strategy. Growth Starter package, built in two weeks.
+- **Queso Pizza** — quesopizza.com. Mobile-first marketing site with a WhatsApp order builder and a paired call-to-confirm action. No cart, checkout or payment gateway by design: the restaurant has no POS and the WhatsApp number is on the owner's personal phone, while on-site staff can answer a call but not WhatsApp.
+- **Vast Gallery** — vastgalleryphotography.com. Marketing site plus a client photo-delivery system replacing their WeTransfer workflow: token-linked private galleries (`/g/[token]`), single-photo and zip download, download tracking in Postgres, and an admin area for bookings and galleries. Note the marketing site is mid-build (Phase 2 of 6 in its own plan) — the delivery system is the substantial, finished part, so describe it that way. It is the one project hosted on Vercel rather than Cloudflare.
 
 **Removed as fabricated (2026-09-23):**
 - `components/sections/testimonials.tsx` previously shipped three invented testimonials with invented attributed people ("Dr. N. Banda", "J. Mwansa", "Mrs. T. Phiri") and an invented metric. Replaced with the real reviews above.
