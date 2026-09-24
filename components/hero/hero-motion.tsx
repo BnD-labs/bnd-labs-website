@@ -23,6 +23,16 @@ export function HeroMotion() {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
+    // Parallax is for a fine pointer only. On touch, scroll events stop
+    // firing during momentum, so the planes visibly lag the content mid-swipe.
+    const finePointer = window.matchMedia("(pointer: fine)").matches;
+    // Where scroll-driven CSS animations exist, the compositor already runs
+    // the planes off the main thread and this listener would only fight it.
+    const cssDrivesScroll =
+      typeof CSS !== "undefined" &&
+      CSS.supports?.("animation-timeline", "scroll()");
+    const trackScroll = finePointer && !cssDrivesScroll;
+
     const root = document.documentElement;
     const hero = document.querySelector<HTMLElement>("[data-hero]");
     let frame = 0;
@@ -35,7 +45,7 @@ export function HeroMotion() {
       frame = 0;
 
       const y = window.scrollY;
-      if (y !== lastY) {
+      if (trackScroll && y !== lastY) {
         lastY = y;
         // One viewport past the hero is far enough; beyond that the planes
         // are off screen and their frozen transform is never seen.
@@ -74,7 +84,7 @@ export function HeroMotion() {
     };
 
     write();
-    window.addEventListener("scroll", onScroll, { passive: true });
+    if (trackScroll) window.addEventListener("scroll", onScroll, { passive: true });
     hero?.addEventListener("pointermove", onPointerMove, { passive: true });
     hero?.addEventListener("pointerleave", onPointerLeave);
 

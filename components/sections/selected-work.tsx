@@ -93,7 +93,9 @@ const projects: Project[] = [
 
 export function SelectedWork() {
   return (
-    <Section size="md">
+    // The nav's Our Work item targets this. scroll-margin-top clears the
+    // floating header, which would otherwise cover the heading on arrival.
+    <Section id="work" size="md" className="scroll-mt-24">
       <SectionHeader
         title="Systems We've Built"
         description="Live sites you can open right now, for businesses you can look up."

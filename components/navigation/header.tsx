@@ -3,11 +3,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import { BookOpen, Layers, Mail, Users } from "lucide-react";
+import { BookOpen, Briefcase, Layers, Mail, Users } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
   { href: "/services", label: "Services", Icon: Layers },
+  { href: "/#work", label: "Work", Icon: Briefcase },
   { href: "/about", label: "About", Icon: Users },
   { href: "/blog", label: "Blog", Icon: BookOpen },
   { href: "/contact", label: "Contact", Icon: Mail },
@@ -34,18 +35,23 @@ export function Header() {
 
   return (
     <header className="pointer-events-none sticky top-0 z-50 w-full px-4 pt-4 sm:px-6 lg:px-8">
-      <div className="relative mx-auto flex h-14 max-w-[90rem] items-center justify-center">
+      {/*
+        Centred from sm up, where the logo and CTA can sit absolutely at the
+        corners. On a phone five items plus a centred pill leaves no room
+        beside the logo, so they share a normal flow row instead.
+      */}
+      <div className="relative mx-auto flex h-14 max-w-[90rem] items-center gap-2 sm:justify-center sm:gap-0">
         <Link
           href="/"
           aria-label="BND Labs, home"
-          className="pointer-events-auto absolute left-0 rounded-xl transition-opacity hover:opacity-80"
+          className="pointer-events-auto shrink-0 rounded-xl transition-opacity hover:opacity-80 sm:absolute sm:left-0"
         >
           <Image
-            src="/bnd-logo.svg"
+            src="/bnd-mark.png"
             alt=""
-            width={46}
-            height={46}
-            className="h-[36px] w-[36px] sm:h-[46px] sm:w-[46px]"
+            width={104}
+            height={104}
+            className="h-[42px] w-[42px] rounded-[11px] sm:h-[52px] sm:w-[52px] sm:rounded-[13px]"
             priority
           />
         </Link>
@@ -56,19 +62,22 @@ export function Header() {
         >
           <ul className="flex items-center">
             {navLinks.map(({ href, label, Icon }) => {
+              // A hash link points at a section, not a route, so pathname can
+              // never match it and marking it active would be a lie.
               const isActive =
-                pathname === href || pathname.startsWith(href + "/");
+                !href.includes("#") &&
+                (pathname === href || pathname.startsWith(href + "/"));
               return (
                 <li key={href}>
                   <Link
                     href={href}
                     aria-current={isActive ? "page" : undefined}
-                    className="group flex w-[52px] flex-col items-center gap-1 rounded-xl py-1 sm:w-[66px]"
+                    className="group flex w-[47px] flex-col items-center gap-1 rounded-xl py-1 sm:w-[64px]"
                   >
                     {/* The plate sits behind the icon only, as in the reference */}
                     <span
                       className={cn(
-                        "flex h-7 w-10 items-center justify-center rounded-lg transition-colors sm:w-11",
+                        "flex h-7 w-9 items-center justify-center rounded-lg transition-colors sm:w-11",
                         isActive ? "bg-primary/10" : "group-hover:bg-secondary",
                       )}
                     >

@@ -300,38 +300,96 @@ body {
 .js .reveal:nth-child(n + 7) { transition-delay: 420ms; }
 
 /* ===== Hero depth =====
-   Five planes translating at different rates off one scroll value. Depth is
-   the difference between the rates, not the number of layers: the grid and
-   glow lag behind the scroll (far), the type tracks it closely (mid), and the
-   annotation and product frame run slightly ahead (near), so the frame reads
-   as rising toward the reader while the ground falls away.
+   Five planes moving at different rates. Depth is the difference between the
+   rates, not the number of layers: glow and grid lag the scroll (far), type
+   tracks it closely (mid), annotation and frame run ahead (near), so the frame
+   rises toward the reader while the ground falls away.
 
-   Transform only. Every plane is fully visible at --sy: 0, so with JavaScript
-   off or motion reduced the hero is a complete static composition rather than
-   a stack of things waiting to be revealed. */
-@media (prefers-reduced-motion: no-preference) {
-  .hero-plane-glow,
-  .hero-plane-grid,
-  .hero-plane-type,
-  .hero-plane-note,
-  .hero-plane-frame {
-    will-change: transform;
-  }
+   Preferred path is a scroll-driven CSS animation, which the compositor runs
+   without touching the main thread. The fallback drives the same transforms
+   from a scroll listener, which is what every browser without
+   animation-timeline gets.
 
-  .hero-plane-glow {
-    transform: translate3d(0, calc(var(--sy, 0) * 0.34px), 0);
+   Both are gated on a fine pointer. On touch, scroll events stop firing during
+   momentum, so a JS-driven plane visibly lags the content under your thumb —
+   the parallax is the thing that felt unsmooth when swiping. Phones get a
+   static composition and native scrolling instead, which is the better trade.
+
+   Every plane is fully visible at rest, so JavaScript off or motion reduced
+   leaves a complete hero rather than a stack of things waiting to appear. */
+
+@keyframes hero-plane-glow-move {
+  to { transform: translate3d(0, 34vh, 0); }
+}
+@keyframes hero-plane-grid-move {
+  to { transform: translate3d(0, 20vh, 0); }
+}
+@keyframes hero-plane-type-move {
+  to { transform: translate3d(0, 6vh, 0); }
+}
+@keyframes hero-plane-note-move {
+  to { transform: translate3d(0, -5vh, 0); }
+}
+@keyframes hero-plane-frame-move {
+  to { transform: translate3d(0, -12vh, 0); }
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+    .hero-plane-glow,
+    .hero-plane-type,
+    .hero-plane-note,
+    .hero-plane-frame {
+      animation-timeline: scroll(root block);
+      animation-range: 0 100vh;
+      animation-timing-function: linear;
+      animation-fill-mode: both;
+    }
+
+    .hero-plane-glow { animation-name: hero-plane-glow-move; }
+    .hero-plane-type { animation-name: hero-plane-type-move; }
+    .hero-plane-note { animation-name: hero-plane-note-move; }
+    .hero-plane-frame { animation-name: hero-plane-frame-move; }
+
+    /* The grid carries the endless drift as well, so both animations are
+       declared together with a timeline each. */
+    .hero-plane-grid.hero-grid-drift {
+      animation-name: hero-grid-drift, hero-plane-grid-move;
+      animation-duration: 26s, auto;
+      animation-timing-function: linear, linear;
+      animation-iteration-count: infinite, 1;
+      animation-fill-mode: none, both;
+      animation-timeline: auto, scroll(root block);
+      animation-range: normal, 0 100vh;
+    }
   }
-  .hero-plane-grid {
-    transform: translate3d(0, calc(var(--sy, 0) * 0.2px), 0);
-  }
-  .hero-plane-type {
-    transform: translate3d(0, calc(var(--sy, 0) * 0.06px), 0);
-  }
-  .hero-plane-note {
-    transform: translate3d(0, calc(var(--sy, 0) * -0.05px), 0);
-  }
-  .hero-plane-frame {
-    transform: translate3d(0, calc(var(--sy, 0) * -0.12px), 0);
+}
+
+@supports not (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) and (pointer: fine) {
+    .hero-plane-glow,
+    .hero-plane-grid,
+    .hero-plane-type,
+    .hero-plane-note,
+    .hero-plane-frame {
+      will-change: transform;
+    }
+
+    .hero-plane-glow {
+      transform: translate3d(0, calc(var(--sy, 0) * 0.34px), 0);
+    }
+    .hero-plane-grid {
+      transform: translate3d(0, calc(var(--sy, 0) * 0.2px), 0);
+    }
+    .hero-plane-type {
+      transform: translate3d(0, calc(var(--sy, 0) * 0.06px), 0);
+    }
+    .hero-plane-note {
+      transform: translate3d(0, calc(var(--sy, 0) * -0.05px), 0);
+    }
+    .hero-plane-frame {
+      transform: translate3d(0, calc(var(--sy, 0) * -0.12px), 0);
+    }
   }
 }
 
