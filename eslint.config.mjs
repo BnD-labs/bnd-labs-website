@@ -18,6 +18,8 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Vendored agent skills — third-party scripts, not our source.
+      ".claude/**",
     ],
   },
 ];
