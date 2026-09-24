@@ -6,7 +6,7 @@ const steps = [
     number: "01",
     title: "Discovery",
     description:
-      "We audit your current lead flow, identify leaks, and map your ideal customer journey. No assumptions — only data.",
+      "We audit your current lead flow, identify leaks, and map your ideal customer journey. No assumptions, only data.",
   },
   {
     number: "02",
@@ -18,7 +18,7 @@ const steps = [
     number: "03",
     title: "Build",
     description:
-      "We implement the full infrastructure — website, CRM, lead capture, nurture sequences, and reporting dashboards.",
+      "We implement the full infrastructure: website, CRM, lead capture, nurture sequences, and reporting dashboards.",
   },
   {
     number: "04",

@@ -26,7 +26,7 @@ export function HeroContent() {
         style={{ animationDelay: "0.12s" }}
       >
         Not a retainer. Not freelancer hours. One engine that finds, captures
-        and follows up your leads &mdash; built to keep running without us.
+        and follows up your leads. Built to keep running without us.
       </p>
 
       <div className="hero-rise-delayed mt-8" style={{ animationDelay: "0.24s" }}>

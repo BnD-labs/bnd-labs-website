@@ -1,5 +1,10 @@
 import dynamic from "next/dynamic";
-import { HeroSection, HeroContent, ProspectEngine } from "@/components/hero";
+import {
+  HeroSection,
+  HeroContent,
+  ProspectEngine,
+  ScrollDepth,
+} from "@/components/hero";
 import { ServicesTicker } from "@/components/sections/services-ticker";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { getFeaturedPosts } from "@/lib/blog";
@@ -54,7 +59,11 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection>
-        <HeroContent />
+        <ScrollDepth />
+
+        <div className="hero-plane-type">
+          <HeroContent />
+        </div>
 
         {/*
           The product frame breaks the centre axis: it starts at 30% and runs
@@ -63,7 +72,7 @@ export default async function HomePage() {
           which is what makes the offset read as a decision.
         */}
         <div className="relative mt-12 sm:mt-14">
-          <div className="absolute left-0 top-12 hidden w-[27%] pr-10 lg:block">
+          <div className="hero-plane-note absolute left-0 top-12 hidden w-[27%] pr-10 lg:block">
             <div className="h-px bg-border" />
             <p className="mt-5 font-display text-xl font-bold tracking-tight text-foreground">
               The system we install
@@ -74,7 +83,9 @@ export default async function HomePage() {
             </p>
           </div>
 
-          <ProspectEngine className="w-full lg:ml-[30%] lg:w-[78%]" />
+          <div className="hero-plane-frame">
+            <ProspectEngine className="w-full lg:ml-[30%] lg:w-[78%]" />
+          </div>
         </div>
       </HeroSection>
 
@@ -91,7 +102,7 @@ export default async function HomePage() {
       <ConversionCta
         eyebrow="Stop Guessing, Start Growing"
         title="Your Lead System Starts Here"
-        description="Book a free 30-minute discovery call. We'll audit your current lead flow, pinpoint the gaps, and give you a concrete action plan — whether you work with us or not."
+        description="Book a free 30-minute discovery call. We'll audit your current lead flow, pinpoint the gaps, and give you a concrete action plan, whether you work with us or not."
         primaryCta={{ label: "Book a Discovery Call", href: "/contact" }}
         secondaryCta={{ label: "See How It Works", href: "/services" }}
       />

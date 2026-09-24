@@ -56,7 +56,7 @@ const projects: Project[] = [
     client: "Queso Pizza",
     descriptor: "Fast-food restaurant, Chongwe",
     summary:
-      "A mobile-first ordering site with no cart, no checkout and no payment gateway — deliberately.",
+      "A mobile-first ordering site with no cart, no checkout and no payment gateway. Deliberately.",
     detail:
       "Queso has no POS, and the WhatsApp number sits on the owner’s personal phone. So the order builder compiles a selection into a pre-filled WhatsApp message, paired with a call-to-confirm button, because on-site staff can answer a phone when they cannot answer WhatsApp. The constraint shaped the product.",
     built: [

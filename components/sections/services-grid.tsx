@@ -35,7 +35,7 @@ export const services = [
     id: "growth-retainer",
     name: "Growth System Retainer",
     tagline:
-      "We run your lead generation engine every month — so you scale without adding workload.",
+      "We run your lead generation engine every month, so you scale without adding workload.",
     price: "ZMW 4,500 – 6,000",
     priceNote: "Per month · 3-month minimum",
     duration: "Ongoing",
