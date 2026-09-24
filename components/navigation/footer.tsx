@@ -11,6 +11,12 @@ const COMPANY_DETAILS = {
   email: "info@bnd-lab-agency.com",
 };
 
+// The block stays out of the DOM until the real PACRA values land. An unfilled
+// placeholder reaching the public footer is worse than showing nothing.
+const companyDetailsReady = !Object.values(COMPANY_DETAILS).some((value) =>
+  value.startsWith("TODO"),
+);
+
 const footerLinks = {
   company: [
     { href: "/about", label: "About" },
@@ -123,13 +129,15 @@ export function Footer() {
           guarantees. Kept as plain text: the phone is still a placeholder, and
           a tel: link built from it would be broken.
         */}
-        <div className="mt-6 space-y-0.5 text-center text-xs text-muted-foreground sm:text-left">
-          <p>{COMPANY_DETAILS.registeredName}</p>
-          <p>{COMPANY_DETAILS.address}</p>
-          <p>
-            {COMPANY_DETAILS.phone} &middot; {COMPANY_DETAILS.email}
-          </p>
-        </div>
+        {companyDetailsReady && (
+          <div className="mt-6 space-y-0.5 text-center text-xs text-muted-foreground sm:text-left">
+            <p>{COMPANY_DETAILS.registeredName}</p>
+            <p>{COMPANY_DETAILS.address}</p>
+            <p>
+              {COMPANY_DETAILS.phone} &middot; {COMPANY_DETAILS.email}
+            </p>
+          </div>
+        )}
       </div>
     </footer>
   );

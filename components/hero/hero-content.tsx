@@ -1,77 +1,40 @@
-"use client";
-
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { m } from "framer-motion";
 import { Button } from "@/components/ui/button";
 
-const ease = [0.25, 0.46, 0.45, 0.94] as const;
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 24, filter: "blur(4px)" },
-  visible: (delay: number) => ({
-    opacity: 1,
-    y: 0,
-    filter: "blur(0px)",
-    transition: { duration: 0.6, delay, ease },
-  }),
-};
-
+/**
+ * Deliberately a server component with a CSS-only entrance.
+ *
+ * This used to animate with framer-motion from `initial={{ opacity: 0 }}`,
+ * which meant the h1 — the LCP element — stayed invisible until the bundle
+ * downloaded, hydrated and ran. Measured at 500ms on a local server it still
+ * computed to opacity:0. On a mid-range phone over mobile data that is a blank
+ * hero, and with JS disabled or broken it never appears at all.
+ *
+ * The h1 carries no delay so it starts on the first painted frame; only the
+ * supporting copy and the CTA are staggered behind it.
+ */
 export function HeroContent() {
   return (
-    <div className="max-w-2xl">
-      <m.p
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={0}
-        className="text-sm font-semibold uppercase tracking-widest text-primary sm:text-base"
-      >
-        Growth Systems Architects
-      </m.p>
+    <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+      <h1 className="hero-rise text-balance font-display text-5xl font-bold leading-[1.02] tracking-[-0.045em] text-foreground sm:text-6xl lg:text-[4.5rem] lg:leading-[0.98]">
+        We build lead systems <span className="text-primary">you own</span>.
+      </h1>
 
-      <m.h1
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={0.15}
-        className="mt-4 font-display text-5xl font-bold tracking-tight text-foreground sm:text-7xl lg:text-8xl"
+      <p
+        className="hero-rise-delayed mt-5 max-w-xl text-pretty text-lg text-muted-foreground sm:text-xl"
+        style={{ animationDelay: "0.12s" }}
       >
-        We Build Systems That{" "}
-        <span className="text-primary">Generate Leads</span>
-      </m.h1>
+        Not a retainer. Not freelancer hours. One engine that finds, captures
+        and follows up your leads &mdash; built to keep running without us.
+      </p>
 
-      <m.p
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={0.3}
-        className="mt-6 max-w-xl text-lg text-muted-foreground sm:text-xl lg:text-2xl"
-      >
-        BND Labs helps established Zambian businesses generate consistent,
-        predictable leads through digital infrastructure — not freelancer
-        work.
-      </m.p>
-
-      <m.div
-        variants={fadeUp}
-        initial="hidden"
-        animate="visible"
-        custom={0.45}
-        className="mt-10 flex flex-col gap-4 sm:flex-row"
-      >
+      <div className="hero-rise-delayed mt-8" style={{ animationDelay: "0.24s" }}>
         <Button size="lg" render={<Link href="/contact" />}>
           Book a Discovery Call
           <ArrowRight className="ml-1" aria-hidden="true" />
         </Button>
-        <Button
-          size="lg"
-          variant="outline"
-          render={<Link href="/services" />}
-        >
-          View Our Services
-        </Button>
-      </m.div>
+      </div>
     </div>
   );
 }

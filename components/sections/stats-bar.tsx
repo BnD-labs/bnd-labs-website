@@ -7,34 +7,22 @@ interface Stat {
   description?: string;
 }
 
-const defaultStats: Stat[] = [
-  {
-    value: "3x",
-    label: "Avg. lead increase",
-    description: "Within 90 days of Retainer",
-  },
-  {
-    value: "48hr",
-    label: "Response time",
-    description: "To qualified inbound leads",
-  },
-  {
-    value: "95%",
-    label: "Client retention",
-    description: "After first 3 months",
-  },
-  {
-    value: "6+",
-    label: "Industries served",
-    description: "Healthcare, hospitality & more",
-  },
-];
-
+/**
+ * Unused as of 2026-09-23. It previously shipped four invented figures (3x
+ * lead increase, 48hr response, 95% retention, 6+ industries) which were live
+ * on the homepage and backed by nothing.
+ *
+ * `stats` is deliberately required and has no default: this section cannot
+ * render until someone passes numbers they can actually source. Do not add a
+ * default array back.
+ */
 interface StatsBarProps {
-  stats?: Stat[];
+  stats: Stat[];
 }
 
-export function StatsBar({ stats = defaultStats }: StatsBarProps) {
+export function StatsBar({ stats }: StatsBarProps) {
+  if (stats.length === 0) return null;
+
   return (
     <Section size="sm" background="primary">
       <ScrollReveal className="grid grid-cols-2 gap-px overflow-hidden rounded-xl bg-primary-foreground/10 lg:grid-cols-4">
