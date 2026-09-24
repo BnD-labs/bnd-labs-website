@@ -3,7 +3,7 @@ import {
   HeroSection,
   HeroContent,
   ProspectEngine,
-  ScrollDepth,
+  HeroMotion,
 } from "@/components/hero";
 import { ServicesTicker } from "@/components/sections/services-ticker";
 import { ProblemSection } from "@/components/sections/problem-section";
@@ -59,7 +59,7 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection>
-        <ScrollDepth />
+        <HeroMotion />
 
         <div className="hero-plane-type">
           <HeroContent />
