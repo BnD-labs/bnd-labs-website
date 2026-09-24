@@ -362,7 +362,7 @@ function ReportingMockup() {
         strokeDashoffset="0"
         opacity="0.7"
         strokeLinecap="round"
-        className="feat-anim-rotate"
+        className="feat-anim-donut-major"
       />
       <circle
         cx="194"
@@ -375,7 +375,7 @@ function ReportingMockup() {
         strokeDashoffset="-110"
         opacity="0.6"
         strokeLinecap="round"
-        className="feat-anim-rotate"
+        className="feat-anim-donut-minor"
       />
 
       {/* Legend dots */}
