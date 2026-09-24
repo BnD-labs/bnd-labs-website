@@ -352,3 +352,65 @@ body {
   opacity: 1;
   transform: none;
 }
+
+/* ===== Hero grid: infinite drift and cursor reveal =====
+   One major cell per cycle (160px, five fine 32px cells) so both tiers of the
+   grid loop seamlessly. Animating background-position leaves transform free
+   for the parallax plane, and keeps this off the main thread entirely — the
+   source component drove the same effect from a permanent rAF loop, which on
+   a phone is battery spent on a background texture. */
+@keyframes hero-grid-drift {
+  from {
+    background-position:
+      0 0,
+      0 0,
+      0 0,
+      0 0;
+  }
+  to {
+    background-position:
+      160px 160px,
+      160px 160px,
+      160px 160px,
+      160px 160px;
+  }
+}
+
+.hero-grid-drift {
+  animation: hero-grid-drift 26s linear infinite;
+}
+
+/* The revealed layer. Invisible until a mouse moves over the hero, then a
+   radial mask shows the brighter grid where the cursor is. Opacity carries
+   the state so there is nothing to see on touch or with JavaScript off. */
+.hero-grid-reveal {
+  /* Redefined on this element so the same inline background-image resolves
+     brighter here than on the base layer. Custom properties cascade, and the
+     inline var() reference resolves against the element's own values. */
+  --grid-line: rgb(16 26 64 / 0.22);
+  --grid-line-major: rgb(45 27 105 / 0.36);
+  opacity: 0;
+  transition: opacity 0.45s ease-out;
+  -webkit-mask-image: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    #000,
+    transparent
+  );
+  mask-image: radial-gradient(
+    320px circle at var(--mx, 50%) var(--my, 50%),
+    #000,
+    transparent
+  );
+}
+
+[data-spotlight="on"] .hero-grid-reveal {
+  opacity: 1;
+}
+
+/* A drifting grid is texture, not information, so it stops with everything
+   else. The reveal layer never appears, since its script does not run. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-grid-drift {
+    animation: none !important;
+  }
+}
