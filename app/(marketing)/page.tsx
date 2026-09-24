@@ -1,5 +1,6 @@
 import dynamic from "next/dynamic";
-import { HeroSection, HeroContent, HeroVisual } from "@/components/hero";
+import { HeroSection, HeroContent, ProspectEngine } from "@/components/hero";
+import { ServicesTicker } from "@/components/sections/services-ticker";
 import { ProblemSection } from "@/components/sections/problem-section";
 import { getFeaturedPosts } from "@/lib/blog";
 
@@ -16,8 +17,9 @@ const ServicesGrid = dynamic(
     import("@/components/sections/services-grid").then((m) => m.ServicesGrid),
   { ssr: true },
 );
-const StatsBar = dynamic(
-  () => import("@/components/sections/stats-bar").then((m) => m.StatsBar),
+const SelectedWork = dynamic(
+  () =>
+    import("@/components/sections/selected-work").then((m) => m.SelectedWork),
   { ssr: true },
 );
 const ProcessSteps = dynamic(
@@ -52,17 +54,37 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection>
-        <div className="grid w-full items-center gap-8 lg:grid-cols-[6fr_5fr]">
-          <HeroContent />
-          <HeroVisual className="w-full lg:-mr-8" />
+        <HeroContent />
+
+        {/*
+          The product frame breaks the centre axis: it starts at 30% and runs
+          off the right edge, so the composition leans rather than sitting
+          symmetrically. The annotation fills the gap that opens on the left,
+          which is what makes the offset read as a decision.
+        */}
+        <div className="relative mt-12 sm:mt-14">
+          <div className="absolute left-0 top-12 hidden w-[27%] pr-10 lg:block">
+            <div className="h-px bg-border" />
+            <p className="mt-5 font-display text-xl font-bold tracking-tight text-foreground">
+              The system we install
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+              Prospect Engine is our own software. We build it, install it
+              inside your business, and hand you the login.
+            </p>
+          </div>
+
+          <ProspectEngine className="w-full lg:ml-[30%] lg:w-[78%]" />
         </div>
       </HeroSection>
+
+      <ServicesTicker />
 
       <ProblemSection />
       <FeaturesGrid />
       <ServicesGrid />
-      <StatsBar />
       <ProcessSteps />
+      <SelectedWork />
       <Testimonials />
       <FeaturedBlog posts={posts} />
       <FaqAccordion />

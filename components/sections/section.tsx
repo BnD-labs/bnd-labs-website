@@ -76,7 +76,13 @@ export function SectionHeader({
             {eyebrow}
           </p>
         )}
-        <h2 className="mt-4 font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
+        {/* The top margin belongs to the eyebrow's absence, not the heading. */}
+        <h2
+          className={cn(
+            "font-display text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl",
+            eyebrow && "mt-4",
+          )}
+        >
           {title}
         </h2>
         {description && (

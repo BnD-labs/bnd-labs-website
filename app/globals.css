@@ -34,6 +34,11 @@
   --input: #dde1ed;
   --ring: #2D1B69;
 
+  /* Hero drafting grid — fine 32px rule, major 160px rule. Defined as tokens
+     so the grid follows the theme instead of hardcoding a light-mode navy. */
+  --grid-line: rgb(16 26 64 / 0.055);
+  --grid-line-major: rgb(16 26 64 / 0.10);
+
   /* Semantic */
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -81,6 +86,9 @@
   --border: #1e2858;
   --input: #1e2858;
   --ring: #c088d8;
+
+  --grid-line: rgb(238 230 214 / 0.05);
+  --grid-line-major: rgb(238 230 214 / 0.09);
 
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
@@ -202,9 +210,12 @@ body {
   100% { transform: translateY(100%); opacity: 0; }
 }
 
+/* Bars grow to their value once, then hold. They used to breathe between 0.85
+   and 1 forever, which said nothing — a bar chart that never settles reads as
+   decoration rather than data. */
 @keyframes feat-grow-bar {
-  0%, 100% { transform: scaleY(0.85); }
-  50% { transform: scaleY(1); }
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
 }
 
 @keyframes feat-draw-line {
@@ -223,9 +234,17 @@ body {
   100% { stroke-dashoffset: 0; }
 }
 
-@keyframes feat-rotate-donut {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+/* The donut segments sweep in to their share once, then hold. This replaced a
+   12s infinite rotation: a pie chart spinning on its axis communicates nothing
+   and was the single thing that made the reporting card look generated. */
+@keyframes feat-donut-major {
+  from { stroke-dasharray: 0 176; }
+  to { stroke-dasharray: 110 66; }
+}
+
+@keyframes feat-donut-minor {
+  from { stroke-dasharray: 0 176; }
+  to { stroke-dasharray: 44 132; }
 }
 
 @keyframes feat-float {
@@ -248,7 +267,7 @@ body {
 }
 .feat-anim-grow {
   transform-origin: bottom;
-  animation: feat-grow-bar 2.5s ease-in-out infinite;
+  animation: feat-grow-bar 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
   animation-play-state: paused;
 }
 .feat-anim-draw {
@@ -266,9 +285,12 @@ body {
   animation: feat-connector-flow 1s linear infinite;
   animation-play-state: paused;
 }
-.feat-anim-rotate {
-  transform-origin: center;
-  animation: feat-rotate-donut 12s linear infinite;
+.feat-anim-donut-major {
+  animation: feat-donut-major 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-play-state: paused;
+}
+.feat-anim-donut-minor {
+  animation: feat-donut-minor 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
   animation-play-state: paused;
 }
 .feat-anim-float {
@@ -284,7 +306,8 @@ body {
 .group:hover .feat-anim-draw,
 .group:hover .feat-anim-ping,
 .group:hover .feat-anim-connector,
-.group:hover .feat-anim-rotate,
+.group:hover .feat-anim-donut-major,
+.group:hover .feat-anim-donut-minor,
 .group:hover .feat-anim-float {
   animation-play-state: running;
 }
@@ -302,4 +325,62 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ===== Services ticker =====
+   Two identical copies sit side by side; translating the track by exactly
+   half its width lands copy two where copy one began, so the loop is seamless.
+   The global reduced-motion rule above snaps animations to their end state,
+   which would leave the track parked at -50% — so reset the transform too. */
+@keyframes ticker-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.ticker-track {
+  animation: ticker-scroll 38s linear infinite;
+}
+
+.ticker-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* ===== Hero entrance =====
+   CSS, not JavaScript. The h1 is the LCP element and this audience browses on
+   mid-range phones over mobile data; gating it behind a hydrated animation
+   library left it at opacity:0 for as long as the bundle took to arrive. The
+   h1 itself carries no delay, so it starts animating on the first painted
+   frame. The global reduced-motion rule above collapses this to its end state. */
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: blur(0);
+  }
+}
+
+/* No fill-mode, and no delay on the element that uses it: the underlying
+   style is already visible, so if the animation never runs — stalled
+   compositor, an old engine, anything — the headline still paints. */
+.hero-rise {
+  animation: hero-rise 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* Staggered elements need `backwards` so they hold the start state through
+   their delay. Reserved for supporting copy, never for the LCP heading. */
+.hero-rise-delayed {
+  animation: hero-rise 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
 }
