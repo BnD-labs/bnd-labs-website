@@ -61,14 +61,17 @@ export const metadata: Metadata = {
 };
 
 /**
- * Browser chrome follows the theme. Two entries rather than one so the phone's
- * status bar matches the page the visitor is actually seeing.
+ * The site renders light regardless of system preference.
+ *
+ * Auto-dark was briefly enabled and reverted. The dark palette turns primary
+ * into #c088d8 — a lavender that is exactly the tell people now read as an
+ * AI-generated site, and this site's whole argument is that it was not. The
+ * .dark tokens and the Tailwind variant binding are intact, so dark can be
+ * switched back on the moment that palette is reworked away from the purple;
+ * until then, defaulting to it on a dark-mode phone does more harm than good.
  */
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#fafbfe" },
-    { media: "(prefers-color-scheme: dark)", color: "#080e24" },
-  ],
+  themeColor: "#fafbfe",
 };
 
 export default function RootLayout({
@@ -88,10 +91,7 @@ export default function RootLayout({
         <script
           dangerouslySetInnerHTML={{
             __html:
-              `document.documentElement.classList.add("js");` +
-              `try{var m=matchMedia("(prefers-color-scheme: dark)"),` +
-              `a=function(e){document.documentElement.classList.toggle("dark",e.matches)};` +
-              `a(m);m.addEventListener("change",a)}catch(e){}`,
+              `document.documentElement.classList.add("js")`,
           }}
         />
       </head>
