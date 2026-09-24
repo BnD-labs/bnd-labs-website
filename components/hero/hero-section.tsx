@@ -62,9 +62,9 @@ export function HeroSection({ children, className }: HeroSectionProps) {
         aria-hidden="true"
         className="hero-plane-glow pointer-events-none absolute -inset-y-32 inset-x-0"
       >
-        <div className="absolute right-[-14%] top-[-18%] h-[46%] w-[42%] rounded-full bg-[var(--color-mol-orange)] opacity-[0.16] blur-[120px]" />
-        <div className="absolute right-[8%] top-[-12%] h-[26%] w-[22%] rounded-full bg-primary opacity-[0.14] blur-[100px]" />
-        <div className="absolute left-[-12%] bottom-[-22%] h-[46%] w-[40%] rounded-full bg-[var(--color-mol-cyan)] opacity-[0.18] blur-[120px]" />
+        <div className="absolute right-[-14%] top-[-18%] h-[46%] w-[42%] rounded-full bg-[var(--color-mol-orange)] opacity-[0.30] blur-[120px]" />
+        <div className="absolute right-[8%] top-[-12%] h-[26%] w-[22%] rounded-full bg-primary opacity-[0.26] blur-[100px]" />
+        <div className="absolute left-[-12%] bottom-[-22%] h-[46%] w-[40%] rounded-full bg-[var(--color-mol-cyan)] opacity-[0.32] blur-[120px]" />
       </div>
 
       {/* Foreground content */}

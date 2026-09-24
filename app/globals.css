@@ -42,8 +42,8 @@
 
   /* Hero drafting grid — fine 32px rule, major 160px rule. Defined as tokens
      so the grid follows the theme instead of hardcoding a light-mode navy. */
-  --grid-line: rgb(16 26 64 / 0.04);
-  --grid-line-major: rgb(16 26 64 / 0.075);
+  --grid-line: rgb(16 26 64 / 0.025);
+  --grid-line-major: rgb(16 26 64 / 0.045);
 
   /* Semantic */
   --destructive: #ef4444;
