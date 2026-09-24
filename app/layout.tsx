@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Source_Sans_3, Epilogue, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -58,9 +58,17 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  other: {
-    "theme-color": "#fafbfe",
-  },
+};
+
+/**
+ * Browser chrome follows the theme. Two entries rather than one so the phone's
+ * status bar matches the page the visitor is actually seeing.
+ */
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafbfe" },
+    { media: "(prefers-color-scheme: dark)", color: "#080e24" },
+  ],
 };
 
 export default function RootLayout({
@@ -70,6 +78,23 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        {/*
+          Marks that scripting is available, before first paint so there is no
+          flash. Scroll-reveal styles hang off this class, which means the
+          hidden-then-revealed state only ever applies when JavaScript can
+          actually reveal it — without it every section renders visible.
+        */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              `document.documentElement.classList.add("js");` +
+              `try{var m=matchMedia("(prefers-color-scheme: dark)"),` +
+              `a=function(e){document.documentElement.classList.toggle("dark",e.matches)};` +
+              `a(m);m.addEventListener("change",a)}catch(e){}`,
+          }}
+        />
+      </head>
       <body
         className={`${sourceSans3.variable} ${epilogue.variable} ${geistMono.variable} font-sans antialiased`}
       >

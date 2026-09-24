@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+/* Bind Tailwind's `dark:` variant to the .dark class, which is where this
+   project's dark tokens live. Without this the variant falls back to
+   prefers-color-scheme, so on a dark-mode OS the handful of `dark:`
+   utilities in components/ui fired while every token stayed light. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* ===== BND Labs Design System ===== */
 /* Palette derived from brand kit: deep purple primary + molecular accents */
 /* (purple #b06cc8, cyan #6dd5ea, yellow #ecd04a, orange #e07848)         */
@@ -191,127 +197,6 @@ body {
   outline-offset: 2px;
 }
 
-/* ===== Feature Card SVG Animations ===== */
-/* Subtle, GPU-accelerated animations for "What You Get" section mockups */
-
-@keyframes feat-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.9; }
-}
-
-@keyframes feat-slide-down {
-  0% { transform: translateY(-4px); opacity: 0.6; }
-  100% { transform: translateY(4px); opacity: 0; }
-}
-
-@keyframes feat-flow-down {
-  0% { transform: translateY(-100%); opacity: 0; }
-  30% { opacity: 0.8; }
-  100% { transform: translateY(100%); opacity: 0; }
-}
-
-/* Bars grow to their value once, then hold. They used to breathe between 0.85
-   and 1 forever, which said nothing — a bar chart that never settles reads as
-   decoration rather than data. */
-@keyframes feat-grow-bar {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
-}
-
-@keyframes feat-draw-line {
-  from { stroke-dashoffset: 200; }
-  to { stroke-dashoffset: 0; }
-}
-
-@keyframes feat-dot-ping {
-  0% { transform: scale(1); opacity: 0.7; }
-  50% { transform: scale(1.6); opacity: 0; }
-  100% { transform: scale(1); opacity: 0; }
-}
-
-@keyframes feat-connector-flow {
-  0% { stroke-dashoffset: 16; }
-  100% { stroke-dashoffset: 0; }
-}
-
-/* The donut segments sweep in to their share once, then hold. This replaced a
-   12s infinite rotation: a pie chart spinning on its axis communicates nothing
-   and was the single thing that made the reporting card look generated. */
-@keyframes feat-donut-major {
-  from { stroke-dasharray: 0 176; }
-  to { stroke-dasharray: 110 66; }
-}
-
-@keyframes feat-donut-minor {
-  from { stroke-dasharray: 0 176; }
-  to { stroke-dasharray: 44 132; }
-}
-
-@keyframes feat-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-2px); }
-}
-
-/* Animation utility classes — only play when parent .group is hovered */
-.feat-anim-pulse {
-  animation: feat-pulse 2.4s ease-in-out infinite;
-  animation-play-state: paused;
-}
-.feat-anim-slide-down {
-  animation: feat-slide-down 1.8s ease-in-out infinite;
-  animation-play-state: paused;
-}
-.feat-anim-flow {
-  animation: feat-flow-down 2s ease-in-out infinite;
-  animation-play-state: paused;
-}
-.feat-anim-grow {
-  transform-origin: bottom;
-  animation: feat-grow-bar 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-play-state: paused;
-}
-.feat-anim-draw {
-  stroke-dasharray: 200;
-  stroke-dashoffset: 200;
-  animation: feat-draw-line 1.5s ease-out forwards;
-  animation-play-state: paused;
-}
-.feat-anim-ping {
-  animation: feat-dot-ping 2s ease-out infinite;
-  animation-play-state: paused;
-}
-.feat-anim-connector {
-  stroke-dasharray: 4 4;
-  animation: feat-connector-flow 1s linear infinite;
-  animation-play-state: paused;
-}
-.feat-anim-donut-major {
-  animation: feat-donut-major 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-play-state: paused;
-}
-.feat-anim-donut-minor {
-  animation: feat-donut-minor 0.9s cubic-bezier(0.22, 1, 0.36, 1) 0.15s forwards;
-  animation-play-state: paused;
-}
-.feat-anim-float {
-  animation: feat-float 3s ease-in-out infinite;
-  animation-play-state: paused;
-}
-
-/* Play animations when card is hovered */
-.group:hover .feat-anim-pulse,
-.group:hover .feat-anim-slide-down,
-.group:hover .feat-anim-flow,
-.group:hover .feat-anim-grow,
-.group:hover .feat-anim-draw,
-.group:hover .feat-anim-ping,
-.group:hover .feat-anim-connector,
-.group:hover .feat-anim-donut-major,
-.group:hover .feat-anim-donut-minor,
-.group:hover .feat-anim-float {
-  animation-play-state: running;
-}
-
 /* ===== Reduced Motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -384,3 +269,32 @@ body {
 .hero-rise-delayed {
   animation: hero-rise 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
 }
+
+/* ===== Scroll reveal =====
+   The hidden state is scoped to `.js`, which layout.tsx sets before first
+   paint. Without scripting the class never lands, so every section renders
+   visible rather than waiting on a bundle that may be slow or broken. */
+.reveal {
+  transition:
+    opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+    transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.js .reveal {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Siblings enter in sequence. nth-child counts among siblings, so this works
+   wherever RevealItems sit rather than only as direct children. */
+.js .reveal:nth-child(2) { transition-delay: 70ms; }
+.js .reveal:nth-child(3) { transition-delay: 140ms; }
+.js .reveal:nth-child(4) { transition-delay: 210ms; }
+.js .reveal:nth-child(5) { transition-delay: 280ms; }
+.js .reveal:nth-child(6) { transition-delay: 350ms; }
+.js .reveal:nth-child(n + 7) { transition-delay: 420ms; }
