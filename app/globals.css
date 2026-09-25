@@ -337,6 +337,7 @@ body {
 @supports (animation-timeline: scroll()) {
   @media (prefers-reduced-motion: no-preference) and (pointer: fine) {
     .hero-plane-glow,
+    .hero-plane-grid,
     .hero-plane-type,
     .hero-plane-note,
     .hero-plane-frame {
@@ -347,21 +348,10 @@ body {
     }
 
     .hero-plane-glow { animation-name: hero-plane-glow-move; }
+    .hero-plane-grid { animation-name: hero-plane-grid-move; }
     .hero-plane-type { animation-name: hero-plane-type-move; }
     .hero-plane-note { animation-name: hero-plane-note-move; }
     .hero-plane-frame { animation-name: hero-plane-frame-move; }
-
-    /* The grid carries the endless drift as well, so both animations are
-       declared together with a timeline each. */
-    .hero-plane-grid.hero-grid-drift {
-      animation-name: hero-grid-drift, hero-plane-grid-move;
-      animation-duration: 26s, auto;
-      animation-timing-function: linear, linear;
-      animation-iteration-count: infinite, 1;
-      animation-fill-mode: none, both;
-      animation-timeline: auto, scroll(root block);
-      animation-range: normal, 0 100vh;
-    }
   }
 }
 
@@ -413,29 +403,36 @@ body {
 
 /* ===== Hero grid: infinite drift and cursor reveal =====
    One major cell per cycle (160px, five fine 32px cells) so both tiers of the
-   grid loop seamlessly. Animating background-position leaves transform free
-   for the parallax plane, and keeps this off the main thread entirely — the
-   source component drove the same effect from a permanent rAF loop, which on
-   a phone is battery spent on a background texture. */
+   grid loop seamlessly.
+
+   This used to animate `background-position`, on the stated reasoning that it
+   left `transform` free for the parallax plane and so cost nothing. The second
+   half of that was simply false. `background-position` is not a compositor
+   property: it repaints the whole layer every frame, and there were two of
+   these layers, each painting four stacked gradients at viewport size. Idle,
+   with nothing scrolling and no JavaScript running, it held the main thread at
+   1927ms out of every 2000ms on a throttled phone, and scrolling ran at 12fps
+   with every single frame dropped.
+
+   `transform` is a compositor property, so the drift now costs one raster and
+   then nothing. Keeping `transform` free for the parallax is handled by
+   structure instead: the plane is the outer element and the texture is a child
+   of it, so each owns its own transform. See `HeroSection`.
+
+   The child is oversized by exactly one cycle up and left, so that after
+   translating a full 160px down and right it still covers the plane at both
+   ends of the loop and the seam never reaches an edge. */
 @keyframes hero-grid-drift {
-  from {
-    background-position:
-      0 0,
-      0 0,
-      0 0,
-      0 0;
-  }
   to {
-    background-position:
-      160px 160px,
-      160px 160px,
-      160px 160px,
-      160px 160px;
+    transform: translate3d(160px, 160px, 0);
   }
 }
 
 .hero-grid-drift {
   animation: hero-grid-drift 26s linear infinite;
+  /* This layer animates for the life of the page, so promotion is the point
+     rather than a hint to be applied sparingly. */
+  will-change: transform;
 }
 
 /* The revealed layer. Invisible until a mouse moves over the hero, then a
@@ -465,6 +462,16 @@ body {
   opacity: 1;
 }
 
+/* Nothing sets `data-spotlight` without a mouse, so on a phone this is a
+   second full-size grid layer that is rasterised, animated and never once
+   seen. Removing it halves the hero's compositing work on exactly the devices
+   that can least afford it. */
+@media (pointer: coarse) {
+  .hero-grid-reveal {
+    display: none;
+  }
+}
+
 /* A drifting grid is texture, not information, so it stops with everything
    else. The reveal layer never appears, since its script does not run. */
 @media (prefers-reduced-motion: reduce) {
@@ -474,24 +481,39 @@ body {
 }
 
 /* ===== Flow button =====
-   The hover choreography behind the site's two primary calls to action.
-   Adapted from a 21st.dev component; the mechanic is theirs, the palette and
-   the physics are ours. Three things move together: a disc of ink grows from
-   the centre until it floods the button, the pill squares off toward a
-   rounded rectangle, and the arrow hands over — the one on the right flies
-   out while a second flies in from the left, so the label reads as having
-   travelled rather than merely lit up.
+   The hover choreography behind the site's calls to action. Adapted from a
+   21st.dev component; the mechanic is theirs, the palette and the timing are
+   ours. Three things move together: a disc of ink grows from the centre until
+   it floods the button, the arrow hands over — the one on the right flies out
+   while a second flies in from the left — and the label slides across to make
+   room, so it reads as having travelled rather than merely lit up.
 
    Written here rather than as utilities because it is four coordinated
-   transitions across four elements and the easing curves are the whole point.
+   transitions across four elements and the curves are the whole point.
 
-   Two departures from the source, both deliberate:
+   Departures from the source:
 
-   - The disc grows with `transform: scale()` sized off the button's own
-     width, not by animating width and height to a fixed 220px. Scale runs on
-     the compositor; width/height forces layout on every frame of a 700ms
-     move, and a fixed diameter stops covering the corners as soon as a label
-     is longer than the one it was tuned against.
+   - Every move is a `transform`, so the whole thing runs on the compositor.
+     The disc in particular grows with `scale()` sized off the button's own
+     width rather than animating width and height to a fixed 220px. Scale is a
+     compositor property; width and height force layout on every frame, and a
+     fixed diameter stops covering the corners as soon as a label is longer
+     than the one it was tuned against.
+
+   - The pill keeps its shape. The source squared it off to a 12px rectangle
+     mid-hover, which reads as the button becoming a different object while
+     you are pointing at it. (`border-radius` is also not a compositor
+     property, and reshaping an `overflow: hidden` element reshapes the clip
+     the disc is drawn through — but measured on this page that cost sat below
+     the noise floor, so the reason to drop it is the first one, not speed.)
+
+   - Roughly half the duration. The source runs 600-800ms per move. That is
+     slow enough that moving on and off a button never completes a pass, so
+     the choreography spends its life reversing and the button feels like it
+     is lagging your cursor. Entering is considered; leaving is brisk, which
+     is why each element declares its exit timing on the base rule and its
+     entry timing under `:hover`.
+
    - The choreography also plays on `:focus-visible`, so a keyboard user gets
      the same button a mouse user does.
 
@@ -500,52 +522,57 @@ body {
 
 .flow-btn {
   --flow-ease: cubic-bezier(0.23, 1, 0.32, 1);
-  --flow-arrow-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --flow-arrow-ease: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --flow-exit: 260ms;
   transition:
-    border-radius 700ms var(--flow-ease),
-    border-color 400ms ease,
-    color 400ms ease,
+    border-color 260ms ease,
+    color 260ms ease,
     transform 140ms ease;
 }
 
-.flow-btn:is(:hover, :focus-visible) {
-  border-radius: 14px;
-}
-
-/* Press is the one move that must not be slow — 140ms above, not 700. */
+/* Press is the one move that must not wait on anything — 140ms above. */
 .flow-btn:active {
   transform: scale(0.98);
 }
 
-/* 1.25 clears the corners of any pill up to roughly 4:1, which covers every
-   label length this site uses. The parent clips it back to the radius. */
+/* The flood. 1.25 clears the corners of any pill up to roughly 4:1, which
+   covers every label length on this site. The parent clips it to the radius,
+   and because that radius never changes, the clip is rasterised once. */
 .flow-btn-ink {
   transform: translate(-50%, -50%) scale(0);
-  transition: transform 700ms var(--flow-ease);
+  transition: transform var(--flow-exit) ease-out;
 }
 
 .flow-btn:is(:hover, :focus-visible) .flow-btn-ink {
   transform: translate(-50%, -50%) scale(1.25);
+  transition: transform 460ms var(--flow-ease);
 }
 
 /* At rest the label sits slightly left, clear of the resting arrow on the
    right; on hover it slides right to clear the arrow arriving on the left. */
 .flow-btn-label {
   transform: translateX(-0.75rem);
-  transition: transform 700ms ease-out;
+  transition: transform var(--flow-exit) ease-out;
 }
 
 .flow-btn:is(:hover, :focus-visible) .flow-btn-label {
   transform: translateX(0.75rem);
+  transition: transform 400ms ease-out;
 }
 
 /* Both arrows travel by transform rather than by `left`/`right`, so neither
-   one relayouts while it moves. 3rem is enough to clear the padding box in
-   either direction and be clipped by the parent's overflow. */
+   relayouts while it moves. 3rem clears the padding box in either direction
+   and is then clipped by the parent's overflow. */
 .flow-btn-arrow {
   transition:
-    transform 700ms var(--flow-arrow-ease),
-    color 400ms ease;
+    transform var(--flow-exit) ease-out,
+    color 260ms ease;
+}
+
+.flow-btn:is(:hover, :focus-visible) .flow-btn-arrow {
+  transition:
+    transform 440ms var(--flow-arrow-ease),
+    color 260ms ease;
 }
 
 .flow-btn-arrow-out {
