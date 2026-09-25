@@ -472,3 +472,94 @@ body {
     animation: none !important;
   }
 }
+
+/* ===== Flow button =====
+   The hover choreography behind the site's two primary calls to action.
+   Adapted from a 21st.dev component; the mechanic is theirs, the palette and
+   the physics are ours. Three things move together: a disc of ink grows from
+   the centre until it floods the button, the pill squares off toward a
+   rounded rectangle, and the arrow hands over — the one on the right flies
+   out while a second flies in from the left, so the label reads as having
+   travelled rather than merely lit up.
+
+   Written here rather than as utilities because it is four coordinated
+   transitions across four elements and the easing curves are the whole point.
+
+   Two departures from the source, both deliberate:
+
+   - The disc grows with `transform: scale()` sized off the button's own
+     width, not by animating width and height to a fixed 220px. Scale runs on
+     the compositor; width/height forces layout on every frame of a 700ms
+     move, and a fixed diameter stops covering the corners as soon as a label
+     is longer than the one it was tuned against.
+   - The choreography also plays on `:focus-visible`, so a keyboard user gets
+     the same button a mouse user does.
+
+   The global reduced-motion rule collapses all of it to the rest state, which
+   is already a complete, legible button. Nothing here is load-bearing. */
+
+.flow-btn {
+  --flow-ease: cubic-bezier(0.23, 1, 0.32, 1);
+  --flow-arrow-ease: cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition:
+    border-radius 700ms var(--flow-ease),
+    border-color 400ms ease,
+    color 400ms ease,
+    transform 140ms ease;
+}
+
+.flow-btn:is(:hover, :focus-visible) {
+  border-radius: 14px;
+}
+
+/* Press is the one move that must not be slow — 140ms above, not 700. */
+.flow-btn:active {
+  transform: scale(0.98);
+}
+
+/* 1.25 clears the corners of any pill up to roughly 4:1, which covers every
+   label length this site uses. The parent clips it back to the radius. */
+.flow-btn-ink {
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 700ms var(--flow-ease);
+}
+
+.flow-btn:is(:hover, :focus-visible) .flow-btn-ink {
+  transform: translate(-50%, -50%) scale(1.25);
+}
+
+/* At rest the label sits slightly left, clear of the resting arrow on the
+   right; on hover it slides right to clear the arrow arriving on the left. */
+.flow-btn-label {
+  transform: translateX(-0.75rem);
+  transition: transform 700ms ease-out;
+}
+
+.flow-btn:is(:hover, :focus-visible) .flow-btn-label {
+  transform: translateX(0.75rem);
+}
+
+/* Both arrows travel by transform rather than by `left`/`right`, so neither
+   one relayouts while it moves. 3rem is enough to clear the padding box in
+   either direction and be clipped by the parent's overflow. */
+.flow-btn-arrow {
+  transition:
+    transform 700ms var(--flow-arrow-ease),
+    color 400ms ease;
+}
+
+.flow-btn-arrow-out {
+  transform: translateX(0);
+}
+
+.flow-btn:is(:hover, :focus-visible) .flow-btn-arrow-out {
+  transform: translateX(3rem);
+}
+
+.flow-btn-arrow-in {
+  transform: translateX(-3rem);
+}
+
+.flow-btn:is(:hover, :focus-visible) .flow-btn-arrow-in {
+  transform: translateX(0);
+}

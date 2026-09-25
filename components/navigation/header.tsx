@@ -4,6 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { BookOpen, Briefcase, Layers, Mail, Users } from "lucide-react";
+import { FlowButton } from "@/components/ui/flow-button";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -38,29 +39,40 @@ export function Header() {
       {/*
         Centred from sm up, where the logo and CTA can sit absolutely at the
         corners. On a phone five items plus a centred pill leaves no room
-        beside the logo, so they share a normal flow row instead.
+        beside the logo, so they share a normal flow row instead — and there
+        the pill flexes to fill whatever the logo leaves. It used to be a fixed
+        253px at every width, which meant 13px of breathing room at 320 and
+        107px of dead space at 414, so the row read as left-heavy on a big
+        phone and cramped on a small one.
       */}
-      <div className="relative mx-auto flex h-14 max-w-[90rem] items-center gap-2 sm:justify-center sm:gap-0">
+      <div className="relative mx-auto flex h-14 max-w-[90rem] items-center gap-3 sm:justify-center sm:gap-0">
+        {/*
+          34px on a phone, not 42. The mark is a solid purple square and the
+          pill beside it is a pale outline, so at 42 it out-weighed the whole
+          navigation. The padding-and-negative-margin pair keeps the tap target
+          at 42px while the artwork shrinks, and cancels itself in the flow so
+          the pill gets the space back.
+        */}
         <Link
           href="/"
           aria-label="BND Labs, home"
-          className="pointer-events-auto shrink-0 rounded-xl transition-opacity hover:opacity-80 sm:absolute sm:left-0"
+          className="pointer-events-auto -m-1 shrink-0 rounded-xl p-1 transition-opacity hover:opacity-80 sm:absolute sm:left-0 sm:m-0 sm:p-0"
         >
           <Image
             src="/bnd-mark.png"
             alt=""
             width={104}
             height={104}
-            className="h-[42px] w-[42px] rounded-[11px] sm:h-[52px] sm:w-[52px] sm:rounded-[13px]"
+            className="h-[34px] w-[34px] rounded-[9px] sm:h-[52px] sm:w-[52px] sm:rounded-[13px]"
             priority
           />
         </Link>
 
         <nav
           aria-label="Main"
-          className="pointer-events-auto flex h-14 items-center rounded-full border border-border bg-background/85 px-2 shadow-[0_8px_28px_-12px_rgb(16_26_64_/_0.22)] backdrop-blur-md"
+          className="pointer-events-auto flex h-14 min-w-0 flex-1 items-center rounded-full border border-border bg-background/85 px-2 shadow-[0_8px_28px_-12px_rgb(16_26_64_/_0.22)] backdrop-blur-md sm:flex-none"
         >
-          <ul className="flex items-center">
+          <ul className="flex w-full items-center">
             {navLinks.map(({ href, label, Icon }) => {
               // A hash link points at a section, not a route, so pathname can
               // never match it and marking it active would be a lie.
@@ -68,11 +80,11 @@ export function Header() {
                 !href.includes("#") &&
                 (pathname === href || pathname.startsWith(href + "/"));
               return (
-                <li key={href}>
+                <li key={href} className="flex-1 sm:flex-none">
                   <Link
                     href={href}
                     aria-current={isActive ? "page" : undefined}
-                    className="group flex w-[47px] flex-col items-center gap-1 rounded-xl py-1 sm:w-[64px]"
+                    className="group flex w-full flex-col items-center gap-1 rounded-xl py-1 sm:w-[64px]"
                   >
                     {/* The plate sits behind the icon only, as in the reference */}
                     <span
@@ -93,7 +105,7 @@ export function Header() {
                     </span>
                     <span
                       className={cn(
-                        "text-[10.5px] font-medium leading-none transition-colors",
+                        "whitespace-nowrap text-[10.5px] font-medium leading-none transition-colors",
                         isActive
                           ? "text-primary"
                           : "text-muted-foreground group-hover:text-foreground",
@@ -108,12 +120,18 @@ export function Header() {
           </ul>
         </nav>
 
-        <Link
+        {/*
+          Outline rather than solid: the hero already carries a filled purple
+          CTA a few hundred pixels below this one, and two solid pills in the
+          same viewport competed for the same eye. On a hairline it still reads
+          as the brand action, and it fills purple the moment you reach for it.
+        */}
+        <FlowButton
+          text="Get Started"
           href="/contact"
-          className="pointer-events-auto absolute right-0 hidden items-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-primary-foreground shadow-[0_8px_28px_-12px_rgb(16_26_64_/_0.22)] transition-colors hover:bg-primary/90 sm:inline-flex"
-        >
-          Get Started
-        </Link>
+          variant="outline"
+          className="pointer-events-auto absolute right-0 hidden bg-background/85 shadow-[0_8px_28px_-12px_rgb(16_26_64_/_0.22)] backdrop-blur-md sm:inline-flex"
+        />
       </div>
     </header>
   );

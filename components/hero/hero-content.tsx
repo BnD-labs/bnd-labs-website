@@ -1,6 +1,4 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { FlowButton } from "@/components/ui/flow-button";
 
 /**
  * Deliberately a server component with a CSS-only entrance.
@@ -30,10 +28,7 @@ export function HeroContent() {
       </p>
 
       <div className="hero-rise-delayed mt-8" style={{ animationDelay: "0.24s" }}>
-        <Button size="lg" render={<Link href="/contact" />}>
-          Book a Discovery Call
-          <ArrowRight className="ml-1" aria-hidden="true" />
-        </Button>
+        <FlowButton text="Book a Discovery Call" href="/contact" size="lg" />
       </div>
     </div>
   );

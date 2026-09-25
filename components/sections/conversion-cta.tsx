@@ -1,6 +1,4 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { FlowButton } from "@/components/ui/flow-button";
 import { Section } from "@/components/sections/section";
 import { ScrollReveal } from "@/components/scroll-reveal";
 
@@ -49,20 +47,30 @@ export function ConversionCta({
         >
           {description}
         </p>
+        {/*
+          The same button as the hero, so the page's first and last asks look
+          like the same offer. Which pair depends on the ground: on the dark
+          section white is the loud one, on a light one purple is.
+
+          This also corrects an inversion. The primary used to be `bg-primary`
+          on brand-900 — roughly 2:1, so it sank into the background — while
+          the secondary was a near-white `secondary` pill. The quieter button
+          was the one that carried.
+        */}
         <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button size="lg" className="text-base" render={<Link href={primaryCta.href} />}>
-            {primaryCta.label}
-            <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+          <FlowButton
+            text={primaryCta.label}
+            href={primaryCta.href}
+            variant={isDark ? "solid-on-dark" : "solid"}
+            size="lg"
+          />
           {secondaryCta && (
-            <Button
-              variant={isDark ? "secondary" : "outline"}
+            <FlowButton
+              text={secondaryCta.label}
+              href={secondaryCta.href}
+              variant={isDark ? "outline-on-dark" : "outline"}
               size="lg"
-              className="text-base"
-              render={<Link href={secondaryCta.href} />}
-            >
-              {secondaryCta.label}
-            </Button>
+            />
           )}
         </div>
       </ScrollReveal>
